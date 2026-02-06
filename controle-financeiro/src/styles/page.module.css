@@ -1,0 +1,6 @@
+.containerPage {
+  background-color: gray;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}/*# sourceMappingURL=page.module.css.map */

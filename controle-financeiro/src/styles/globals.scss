@@ -1,0 +1,11 @@
+@use 'variables' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: red;
+}
