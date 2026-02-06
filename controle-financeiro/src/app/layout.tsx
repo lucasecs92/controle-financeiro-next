@@ -1,9 +1,16 @@
+import { Afacad } from "next/font/google";
 import "../styles/globals.scss";
 import type { Metadata } from "next";
 
+const afacad = Afacad({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-afacad",
+});
+
 export const metadata: Metadata = {
   title: "Controle Financeiro",
-  description: "Gerencie suas finanças de forma simples e eficiente",
+  description: "Sistema de gestão financeira pessoal",
 };
 
 export default function RootLayout({
@@ -12,10 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body>
-        {children}
-      </body>
+    <html lang="pt-BR" className={afacad.variable}>
+      <body>{children}</body>
     </html>
   );
 }

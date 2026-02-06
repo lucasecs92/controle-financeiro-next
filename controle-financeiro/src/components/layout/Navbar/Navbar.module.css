@@ -1,0 +1,33 @@
+.navbar {
+  width: 100%;
+  background-color: transparent;
+  padding: 15px 5rem;
+  font-family: "Afacad", sans-serif;
+  font-weight: 500;
+}
+
+.navbarContent {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5em;
+  color: #4a7766;
+  text-decoration: none;
+}
+
+.btnEntrar {
+  background-color: #4a7766;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+}
+.btnEntrar:hover {
+  background-color: #3e6256;
+}/*# sourceMappingURL=Navbar.module.css.map */

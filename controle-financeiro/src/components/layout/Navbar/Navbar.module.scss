@@ -1,0 +1,36 @@
+@use '../../../styles/variables' as *;
+
+.navbar {
+    width: 100%; 
+    background-color: transparent;
+    padding: 15px 5rem;
+    font-family: "Afacad", sans-serif;
+    font-weight: 500;
+}
+
+.navbarContent {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5em;
+    color: $primary-green;
+    text-decoration: none;
+}
+
+.btnEntrar {
+    background-color: $primary-green;
+    color: $light-text;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    &:hover {
+        background-color: $button-hover-darken;
+    }
+}
