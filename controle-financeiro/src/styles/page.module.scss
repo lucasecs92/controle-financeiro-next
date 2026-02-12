@@ -1,10 +1,10 @@
 @use "variables" as *;
 
-.containerPage {
-  background-color: $primary-bg;
+.pageContainer {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin-bottom: 15rem;
 }
 
 .mainContainer {

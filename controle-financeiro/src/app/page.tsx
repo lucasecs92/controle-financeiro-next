@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <section className={styles.containerPage}>
+      <section className={styles.pageContainer}>
         <main className={styles.mainContainer}>
           <h1 className={styles.heroTitle}>
             <span className={styles.accentWord}>Controle</span> suas finanças
