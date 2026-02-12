@@ -1,0 +1,246 @@
+@use "../../../../styles/variables" as *;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalWrap {
+  background-color: $card-bg;
+  padding: 40px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+  box-sizing: border-box;
+}
+
+.closeButton {
+  color: $gray-text;
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+
+  &:hover,
+  &:focus {
+    color: $dark-text;
+  }
+}
+
+.loginFormContainer {
+  width: 100%;
+  text-align: center;
+}
+
+.welcomeText {
+  font-family: "Afacad", sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: $dark-text;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  text-align: left;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: $primary-green;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(106, 153, 78, 0.2);
+    }
+  }
+}
+
+.errorMessageWrap {
+  background-color: $red-negative-light;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.errorMessage {
+  color: $red-negative;
+  font-size: 14px;
+}
+
+.passwordInputWrapper {
+  position: relative;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: $gray-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: $dark-text;
+  }
+}
+
+.forgotPasswordWrap {
+  text-align: right;
+}
+
+.forgotPassword {
+  text-align: right;
+  display: inline;
+  margin-top: -10px;
+  margin-bottom: 25px;
+  color: $primary-green;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.btnLogin {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: $primary-green;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $button-hover-darken;
+  }
+}
+
+.divider {
+  text-align: center;
+  margin: 1rem 0;
+  color: #888;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #eee;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+}
+
+.btnGoogle {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #555;
+  font-size: 16px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.registerPrompt {
+  font-size: 14px;
+  color: #555;
+  margin: 0.5rem 0 0 0;
+
+  button {
+    color: $primary-green;
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,8 +1,8 @@
-.containerPage {
-  background-color: #ece7e2;
+.pageContainer {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin-bottom: 15rem;
 }
 
 .mainContainer {
