@@ -4,9 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import styles from "./Navbar.module.scss";
 import LoginModal from "@/features/auth/components/LoginModal/LoginModal";
+import RegisterModal from "@/features/auth/components/RegisterModal/RegisterModal";
+
+type AuthModalType = "login" | "register" | null;
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [authModal, setAuthModal] = useState<AuthModalType>(null);
 
   return (
     <>
@@ -18,14 +21,26 @@ export default function Navbar() {
 
           <button
             className={styles.btnEntrar}
-            onClick={() => setIsOpen(true)}
+            onClick={() => setAuthModal("login")}
           >
             Entrar
           </button>
         </nav>
       </header>
 
-      {isOpen && <LoginModal onClose={() => setIsOpen(false)} />}
+      {authModal === "login" && (
+        <LoginModal
+          onClose={() => setAuthModal(null)}
+          onOpenRegister={() => setAuthModal("register")}
+        />
+      )}
+
+      {authModal === "register" && (
+        <RegisterModal
+          onClose={() => setAuthModal(null)}
+          onOpenLogin={() => setAuthModal("login")}
+        />
+      )}
     </>
   );
 }

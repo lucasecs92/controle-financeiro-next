@@ -1,0 +1,180 @@
+@use "../../../../styles/variables" as *;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalWrap {
+  background: white;
+  border-radius: 16px;
+  width: 900px;
+  max-width: 95%;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #999;
+  cursor: pointer;
+  z-index: 2;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+.modalContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 520px;
+}
+
+/* LADO ESQUERDO */
+.imageSide {
+  background: #cdeee4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+    display: block;
+  }
+}
+
+/* LADO DIREITO */
+.formSide {
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.welcomeText {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-green;
+  }
+}
+
+
+.passwordInputWrapper {
+  position: relative;
+
+  button {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #777;
+  }
+}
+
+.terms {
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+
+  a {
+    color: $primary-green;
+    font-weight: 600;
+  }
+}
+
+.btnRegister {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #4f7c67;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 13px;
+  color: #999;
+}
+
+.btnGoogle {
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loginPrompt {
+  margin-top: 16px;
+  font-size: 13px;
+  text-align: center;
+
+  button {
+    background: none;
+    border: none;
+    color: $primary-green;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

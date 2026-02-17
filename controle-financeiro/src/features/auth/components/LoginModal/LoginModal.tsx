@@ -8,9 +8,13 @@ import { IoClose } from "react-icons/io5";
 
 interface LoginModalProps {
   readonly onClose: () => void;
+  readonly onOpenRegister: () => void;
 }
 
-export default function LoginModal({ onClose }: LoginModalProps) {
+export default function LoginModal({
+  onClose,
+  onOpenRegister,
+}: LoginModalProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   // Fecha com ESC
@@ -99,7 +103,16 @@ export default function LoginModal({ onClose }: LoginModalProps) {
           </button>
 
           <p className={styles.registerPrompt}>
-            Não tem uma conta? <button type="button">Cadastre-se</button>
+            Não tem uma conta?{" "}
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                onOpenRegister();
+              }}
+            >
+              Cadastre-se
+            </button>
           </p>
         </section>
       </section>

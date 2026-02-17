@@ -29,6 +29,7 @@
   padding: 8px 20px;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 }
 .btnEntrar:hover {
   background-color: #3e6256;
