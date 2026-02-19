@@ -10,7 +10,7 @@
 }
 
 .modalWrap {
-  background: #fff;
+  background-color: #fff;
   border-radius: 16px;
   width: 900px;
   max-width: 95%;
@@ -26,7 +26,7 @@
   background: none;
   border: none;
   font-size: 22px;
-  color: #aaa;
+  color: #a0a0a0;
   cursor: pointer;
   z-index: 2;
 }
@@ -42,7 +42,6 @@
 
 /* LADO ESQUERDO */
 .imageSide {
-  background: #cdeee4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,11 +62,12 @@
 }
 
 .welcomeText {
-  font-size: 22px;
-  font-weight: 700;
+  font-family: "Afacad", sans-serif;
+  font-size: 28px;
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 24px;
   color: #333;
+  margin-bottom: 30px;
 }
 
 .form {
@@ -81,16 +81,16 @@
   width: 100%;
   padding: 14px 16px;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ece7e2;
   font-size: 14px;
   color: #333;
   background-color: #fff;
 }
 .input::-moz-placeholder {
-  color: #999;
+  color: #a0a0a0;
 }
 .input::placeholder {
-  color: #999;
+  color: #a0a0a0;
 }
 .input:focus {
   outline: none;
@@ -111,7 +111,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #999;
+  color: #a0a0a0;
 }
 .passwordToggle svg {
   width: 18px;
@@ -142,7 +142,7 @@
   padding: 14px;
   border-radius: 8px;
   border: none;
-  background-color: #4f7c67;
+  background-color: #4a7766;
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -150,7 +150,7 @@
   transition: background-color 0.3s ease;
 }
 .btnRegister:hover:not(:disabled) {
-  background-color: rgb(67.0916256158, 105.3083743842, 87.4738916256);
+  background-color: #3e6256;
 }
 .btnRegister:disabled {
   opacity: 0.5;
@@ -160,9 +160,9 @@
 /* DIVIDER */
 .divider {
   text-align: center;
-  margin: 20px 0;
-  font-size: 13px;
-  color: #aaa;
+  margin: 1rem 0;
+  font-size: 0.8rem;
+  color: #a0a0a0;
   position: relative;
 }
 .divider::before, .divider::after {
@@ -171,7 +171,7 @@
   top: 50%;
   width: 40%;
   height: 1px;
-  background-color: #eee;
+  background-color: #ece7e2;
 }
 .divider::before {
   left: 0;
@@ -185,18 +185,24 @@
   width: 100%;
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #fff;
-  cursor: pointer;
-  font-size: 14px;
+  border: 1px solid #ece7e2;
+  background-color: #fff;
   color: #555;
+  font-size: 15px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .btnGoogle:hover {
   background-color: #f5f5f5;
+  border-color: #ccc;
+}
+.btnGoogle svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* LOGIN */
