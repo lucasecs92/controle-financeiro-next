@@ -44,20 +44,19 @@ export default function RegisterModal({
           <IoClose />
         </button>
 
-        {/* CONTAINER 2 COLUNAS */}
         <section className={styles.modalContent}>
-          {/* COLUNA ESQUERDA – ILUSTRAÇÃO */}
+          {/* LADO ESQUERDO */}
           <section className={styles.imageSide}>
             <Image
               src="/images/register-illustration.png"
               alt="Ilustração de registro"
-              width={400}
-              height={500}
+              width={450}
+              height={400}
               priority
             />
           </section>
 
-          {/* COLUNA DIREITA – FORM */}
+          {/* LADO DIREITO */}
           <section className={styles.formSide}>
             <h2 className={styles.welcomeText}>Registre-se</h2>
 
@@ -112,7 +111,7 @@ export default function RegisterModal({
                 </button>
               </section>
 
-              <label className={styles.terms}>
+              <section className={styles.terms}>
                 <input
                   type="checkbox"
                   checked={termsAccepted}
@@ -121,7 +120,7 @@ export default function RegisterModal({
                 <span>
                   Li e aceito os <a href="/termos">Termos de Uso</a>.
                 </span>
-              </label>
+              </section>
 
               <button
                 type="submit"
@@ -132,11 +131,11 @@ export default function RegisterModal({
               </button>
             </form>
 
-            <span className={styles.divider}>Ou</span>
+            <section className={styles.divider}>Ou</section>
 
             <button type="button" className={styles.btnGoogle}>
               <FcGoogle />
-              Registre-se com o Google
+              <span>Registre-se com o Google</span>
             </button>
 
             <p className={styles.loginPrompt}>

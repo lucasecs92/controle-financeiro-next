@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .modal {
   position: fixed;
   inset: 0;
@@ -9,7 +10,7 @@
 }
 
 .modalWrap {
-  background: white;
+  background: #fff;
   border-radius: 16px;
   width: 900px;
   max-width: 95%;
@@ -25,18 +26,18 @@
   background: none;
   border: none;
   font-size: 22px;
-  color: #999;
+  color: #aaa;
   cursor: pointer;
   z-index: 2;
 }
 .closeButton:hover {
-  color: #333;
+  color: #555;
 }
 
 .modalContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 520px;
+  min-height: 540px;
 }
 
 /* LADO ESQUERDO */
@@ -51,12 +52,11 @@
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  display: block;
 }
 
 /* LADO DIREITO */
 .formSide {
-  padding: 50px 40px;
+  padding: 48px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,7 +66,8 @@
   font-size: 22px;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
+  color: #333;
 }
 
 .form {
@@ -75,81 +76,135 @@
   gap: 14px;
 }
 
+/* INPUTS */
 .input {
-  padding: 12px 14px;
+  width: 100%;
+  padding: 14px 16px;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
   font-size: 14px;
+  color: #333;
+  background-color: #fff;
+}
+.input::-moz-placeholder {
+  color: #999;
+}
+.input::placeholder {
+  color: #999;
 }
 .input:focus {
   outline: none;
   border-color: #4a7766;
+  box-shadow: 0 0 0 2px rgba(79, 124, 103, 0.15);
 }
 
+/* SENHA */
 .passwordInputWrapper {
   position: relative;
 }
-.passwordInputWrapper button {
+
+.passwordToggle {
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  color: #777;
+  color: #999;
+}
+.passwordToggle svg {
+  width: 18px;
+  height: 18px;
+}
+.passwordToggle:hover {
+  color: #555;
 }
 
+/* TERMOS */
 .terms {
-  font-size: 13px;
-  color: #555;
   display: flex;
   gap: 8px;
-  align-items: flex-start;
+  font-size: 13px;
+  color: #555;
+  align-items: center;
+  margin-top: 4px;
 }
 .terms a {
   color: #4a7766;
   font-weight: 600;
 }
 
+/* BOTÃO PRINCIPAL */
 .btnRegister {
   margin-top: 10px;
-  padding: 12px;
+  width: 100%;
+  padding: 14px;
   border-radius: 8px;
   border: none;
-  background: #4f7c67;
-  color: white;
+  background-color: #4f7c67;
+  color: #fff;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btnRegister:hover:not(:disabled) {
+  background-color: rgb(67.0916256158, 105.3083743842, 87.4738916256);
 }
 .btnRegister:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
+/* DIVIDER */
 .divider {
   text-align: center;
   margin: 20px 0;
   font-size: 13px;
-  color: #999;
+  color: #aaa;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: #eee;
+}
+.divider::before {
+  left: 0;
+}
+.divider::after {
+  right: 0;
 }
 
+/* GOOGLE */
 .btnGoogle {
-  border: 1px solid #ddd;
+  width: 100%;
   padding: 12px;
   border-radius: 8px;
-  background: white;
+  border: 1px solid #ddd;
+  background: #fff;
   cursor: pointer;
+  font-size: 14px;
+  color: #555;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
+.btnGoogle:hover {
+  background-color: #f5f5f5;
+}
 
+/* LOGIN */
 .loginPrompt {
-  margin-top: 16px;
+  margin-top: 14px;
   font-size: 13px;
   text-align: center;
+  color: #555;
 }
 .loginPrompt button {
   background: none;
@@ -157,6 +212,9 @@
   color: #4a7766;
   font-weight: 600;
   cursor: pointer;
+}
+.loginPrompt button:hover {
+  text-decoration: underline;
 }
 
 @keyframes fadeIn {

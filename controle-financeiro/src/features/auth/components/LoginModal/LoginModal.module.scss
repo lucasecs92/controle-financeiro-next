@@ -66,7 +66,7 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #555;
+    color: $gray-text-darken;
   }
 
   input {
@@ -150,7 +150,7 @@
   border: none;
   border-radius: 8px;
   background-color: $primary-green;
-  color: white;
+  color: $light-text;
   font-size: 16px;
   font-weight: bold;
   transition: background-color 0.3s ease;
@@ -164,7 +164,8 @@
 .divider {
   text-align: center;
   margin: 1rem 0;
-  color: #888;
+  font-size: 0.8rem;
+  color: $gray-text;
   position: relative;
 
   &::before,
@@ -174,7 +175,7 @@
     top: 50%;
     width: 40%;
     height: 1px;
-    background-color: #eee;
+    background-color: $primary-bg;
   }
 
   &::before {
@@ -191,22 +192,19 @@
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #fff;
-  color: #555;
-  font-size: 16px;
+  background-color: $card-bg;
+  color: $gray-text-darken;
+  font-size: 15px;
   cursor: pointer;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 
   &:hover {
-    background-color: #f5f5f5;
+    background-color: $primary-bg-hover;
     border-color: #ccc;
   }
 
@@ -218,7 +216,7 @@
 
 .registerPrompt {
   font-size: 14px;
-  color: #555;
+  color: $gray-text-darken;
   margin: 0.5rem 0 0 0;
 
   button {

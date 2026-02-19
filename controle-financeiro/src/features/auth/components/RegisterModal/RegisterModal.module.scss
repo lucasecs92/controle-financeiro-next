@@ -11,7 +11,7 @@
 }
 
 .modalWrap {
-  background: white;
+  background-color: $light-text;
   border-radius: 16px;
   width: 900px;
   max-width: 95%;
@@ -27,49 +27,49 @@
   background: none;
   border: none;
   font-size: 22px;
-  color: #999;
+  color: $gray-text;
   cursor: pointer;
   z-index: 2;
 
   &:hover {
-    color: #333;
+    color: $gray-text-darken;
   }
 }
 
 .modalContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 520px;
+  min-height: 540px;
 }
 
 /* LADO ESQUERDO */
 .imageSide {
-  background: #cdeee4;
   display: flex;
   align-items: center;
   justify-content: center;
 
   img {
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    display: block;
   }
 }
 
 /* LADO DIREITO */
 .formSide {
-  padding: 50px 40px;
+  padding: 48px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .welcomeText {
-  font-size: 22px;
-  font-weight: 700;
+  font-family: "Afacad", sans-serif;
+  font-size: 28px;
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 25px;
+  color: $dark-text;
+  margin-bottom: 30px;
 }
 
 .form {
@@ -78,40 +78,60 @@
   gap: 14px;
 }
 
+/* INPUTS */
 .input {
-  padding: 12px 14px;
+  width: 100%;
+  padding: 14px 16px;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid $primary-bg;
   font-size: 14px;
+  color: $dark-text;
+  background-color: $card-bg;
+
+  &::placeholder {
+    color: $gray-text;
+  }
 
   &:focus {
     outline: none;
     border-color: $primary-green;
+    box-shadow: 0 0 0 2px rgba(79, 124, 103, 0.15);
   }
 }
 
-
+/* SENHA */
 .passwordInputWrapper {
   position: relative;
+}
 
-  button {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #777;
+.passwordToggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $gray-text;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    color: $gray-text-darken;
   }
 }
 
+/* TERMOS */
 .terms {
-  font-size: 13px;
-  color: #555;
   display: flex;
   gap: 8px;
-  align-items: flex-start;
+  font-size: 13px;
+  color: $gray-text-darken;
+  align-items: center;
+  margin-top: 4px;
 
   a {
     color: $primary-green;
@@ -119,15 +139,23 @@
   }
 }
 
+/* BOTÃO PRINCIPAL */
 .btnRegister {
   margin-top: 10px;
-  padding: 12px;
+  width: 100%;
+  padding: 14px;
   border-radius: 8px;
   border: none;
-  background: #4f7c67;
-  color: white;
+  background-color: $primary-green;
+  color: #fff;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $button-hover-darken;
+  }
 
   &:disabled {
     opacity: 0.5;
@@ -135,29 +163,67 @@
   }
 }
 
+/* DIVIDER */
 .divider {
   text-align: center;
-  margin: 20px 0;
-  font-size: 13px;
-  color: #999;
+  margin: 1rem 0;
+  font-size: 0.8rem;
+  color: $gray-text;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: $primary-bg;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
 }
 
+/* GOOGLE */
 .btnGoogle {
-  border: 1px solid #ddd;
+  width: 100%;
   padding: 12px;
   border-radius: 8px;
-  background: white;
+  border: 1px solid $primary-bg;
+  background-color: $card-bg;
+  color: $gray-text-darken;
+  font-size: 15px;
   cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+
+  &:hover {
+    background-color: $primary-bg-hover;
+    border-color: #ccc;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
+/* LOGIN */
 .loginPrompt {
-  margin-top: 16px;
+  margin-top: 14px;
   font-size: 13px;
   text-align: center;
+  color: $gray-text-darken;
 
   button {
     background: none;
@@ -165,6 +231,10 @@
     color: $primary-green;
     font-weight: 600;
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
