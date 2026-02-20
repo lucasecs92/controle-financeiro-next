@@ -1,7 +1,11 @@
 import Image from "next/image";
 import styles from "./Hero.module.scss";
 
-export default function Hero() {
+interface HeroProps {
+  readonly onOpenRegister: () => void;
+}
+
+export default function Hero({ onOpenRegister }: HeroProps) {
   return (
     <section className={styles.pageContainer}>
       <main className={styles.mainContainer}>
@@ -20,7 +24,11 @@ export default function Hero() {
           inteligentes para o seu negócio ou vida pessoal.
         </p>
 
-        <button className={styles.btnSecondary} id="btnCadastrarHome">
+        <button
+          className={styles.btnSecondary}
+          id="btnCadastrarHome"
+          onClick={onOpenRegister}
+        >
           Começar agora
         </button>
       </main>
