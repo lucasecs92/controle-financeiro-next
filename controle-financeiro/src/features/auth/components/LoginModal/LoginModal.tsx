@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { FcGoogle } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
+import {
+  getSupabaseClient,
+  SUPABASE_ENV_ERROR,
+} from "@/lib/supabase/client";
 
 interface LoginModalProps {
   readonly onClose: () => void;
@@ -16,6 +20,11 @@ export default function LoginModal({
   onOpenRegister,
 }: LoginModalProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fecha com ESC
   useEffect(() => {
@@ -28,6 +37,91 @@ export default function LoginModal({
     document.addEventListener("keydown", handleEsc);
     return () => document.removeEventListener("keydown", handleEsc);
   }, [onClose]);
+
+  const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const supabase = getSupabaseClient();
+
+    if (!supabase) {
+      setErrorMessage(SUPABASE_ENV_ERROR);
+      return;
+    }
+
+    setErrorMessage(null);
+    setInfoMessage(null);
+    setIsSubmitting(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      setErrorMessage(error.message);
+      return;
+    }
+
+    onClose();
+  };
+
+  const handleForgotPassword = async () => {
+    const supabase = getSupabaseClient();
+
+    if (!supabase) {
+      setErrorMessage(SUPABASE_ENV_ERROR);
+      return;
+    }
+
+    if (!email.trim()) {
+      setErrorMessage("Informe seu e-mail para recuperar a senha.");
+      return;
+    }
+
+    setErrorMessage(null);
+    setInfoMessage(null);
+    setIsSubmitting(true);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/`,
+    });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      setErrorMessage(error.message);
+      return;
+    }
+
+    setInfoMessage("Verifique seu e-mail para redefinir sua senha.");
+  };
+
+  const handleGoogleLogin = async () => {
+    const supabase = getSupabaseClient();
+
+    if (!supabase) {
+      setErrorMessage(SUPABASE_ENV_ERROR);
+      return;
+    }
+
+    setErrorMessage(null);
+    setInfoMessage(null);
+    setIsSubmitting(true);
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/`,
+      },
+    });
+
+    if (error) {
+      setIsSubmitting(false);
+      setErrorMessage(error.message);
+    }
+  };
 
   return (
     <section className={styles.modal}>
@@ -46,7 +140,19 @@ export default function LoginModal({
             Bem-vindo(a)
           </h2>
 
-          <form>
+          {errorMessage && (
+            <section className={styles.errorMessageWrap}>
+              <p className={styles.errorMessage}>{errorMessage}</p>
+            </section>
+          )}
+
+          {infoMessage && (
+            <section className={styles.infoMessageWrap}>
+              <p className={styles.infoMessage}>{infoMessage}</p>
+            </section>
+          )}
+
+          <form onSubmit={handleLoginSubmit}>
             {/* EMAIL */}
             <section className={styles.formGroup}>
               <label htmlFor="email">E-mail</label>
@@ -57,6 +163,8 @@ export default function LoginModal({
                 placeholder="nome@email.com"
                 required
                 className={styles.passwordInput}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </section>
 
@@ -71,6 +179,8 @@ export default function LoginModal({
                   name="password"
                   placeholder="Senha"
                   required
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
 
                 <button
@@ -85,19 +195,29 @@ export default function LoginModal({
             </section>
 
             <section className={styles.forgotPasswordWrap}>
-              <button type="button" className={styles.forgotPassword}>
+              <button
+                type="button"
+                className={styles.forgotPassword}
+                onClick={handleForgotPassword}
+                disabled={isSubmitting}
+              >
                 Esqueceu a senha?
               </button>
             </section>
 
-            <button type="submit" className={styles.btnLogin}>
+            <button type="submit" className={styles.btnLogin} disabled={isSubmitting}>
               Fazer login
             </button>
           </form>
 
           <section className={styles.divider}>Ou</section>
 
-          <button type="button" className={styles.btnGoogle}>
+          <button
+            type="button"
+            className={styles.btnGoogle}
+            onClick={handleGoogleLogin}
+            disabled={isSubmitting}
+          >
             <FcGoogle />
             <span>Fazer login com o Google</span>
           </button>

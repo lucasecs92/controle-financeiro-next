@@ -97,6 +97,18 @@
   font-size: 14px;
 }
 
+.infoMessageWrap {
+  background-color: #e6f4ea;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.infoMessage {
+  color: $green-positive;
+  font-size: 14px;
+}
+
 .passwordInputWrapper {
   position: relative;
 }
@@ -142,6 +154,11 @@
   &:hover {
     text-decoration: underline;
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .btnLogin {
@@ -158,6 +175,11 @@
 
   &:hover {
     background-color: $button-hover-darken;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
   }
 }
 
@@ -206,6 +228,11 @@
   &:hover {
     background-color: $primary-bg-hover;
     border-color: #ccc;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
   }
 
   svg {

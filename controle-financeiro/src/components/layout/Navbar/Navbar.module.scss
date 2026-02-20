@@ -1,10 +1,15 @@
 @use '../../../styles/variables' as *;
 
 .navbar {
-    width: 100%; 
+    width: 100%;
     background-color: transparent;
     padding: 15px 5rem;
     font-weight: 500;
+}
+
+.navbarAuthenticated {
+    background-color: $primary-green;
+    padding: 1rem 5rem;
 }
 
 .navbarContent {
@@ -24,6 +29,10 @@
     text-decoration: none;
 }
 
+.logoAuthenticated {
+    color: $light-text;
+}
+
 .btnEntrar {
     background-color: $primary-green;
     color: $light-text;
@@ -35,5 +44,77 @@
     cursor: pointer;
     &:hover {
         background-color: $button-hover-darken;
+    }
+}
+
+.userMenu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.userNameButton {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: $light-text;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+}
+
+.userDropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.45rem);
+    min-width: 120px;
+    background-color: $card-bg;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+    padding: 0.35rem;
+    z-index: 20;
+}
+
+.logoutDropdownButton {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 0.5rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    color: $dark-text;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $primary-bg-hover;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.8rem 1rem;
+    }
+
+    .navbarAuthenticated {
+        padding: 0.8rem 1rem;
+    }
+
+    .navbarContent {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
+
+    .userDropdown {
+        left: 0;
+        right: auto;
     }
 }

@@ -1,0 +1,380 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboardContainer {
+  max-width: 1100px;
+  width: 100%;
+  margin: 1.5rem auto 6rem;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.statusMessage {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.infoStatus {
+  color: #1f4f74;
+  background-color: #e8f3ff;
+  border: 1px solid #b6d8ff;
+}
+
+.errorStatus {
+  color: #8e1e1e;
+  background-color: #ffe9e9;
+  border: 1px solid #ffc8c8;
+}
+
+.successStatus {
+  color: #1f6a2e;
+  background-color: #e9f7ec;
+  border: 1px solid #bee8c6;
+}
+
+.dashboardHeaderBar {
+  background-color: #4a7766;
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -0.2rem;
+  z-index: 1;
+}
+.dashboardHeaderBar span {
+  font-size: 1.4rem;
+  font-family: "Afacad", sans-serif;
+  font-weight: 700;
+  line-height: 1;
+}
+.dashboardHeaderBar small {
+  opacity: 0.9;
+  font-size: 0.85rem;
+}
+
+.summaryCard,
+.inputCard,
+.tableCard {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.summaryCard {
+  border-radius: 0 0 10px 10px;
+  padding: 1.6rem;
+}
+
+.summaryNav {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.currentPeriod {
+  font-size: 2rem;
+  font-family: "Afacad", sans-serif;
+  color: #333;
+}
+
+.filterControls {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.filterControls select,
+.inputGroup input,
+.inputGroup select {
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+}
+
+.filterControls select,
+.inputGroup select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"%3E%3Cpath d="M7 10l5 5 5-5z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 1rem;
+  padding-right: 2rem;
+}
+
+.filterControls select {
+  padding: 0.55rem 0.75rem;
+  min-width: 130px;
+}
+
+.summaryValues {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+}
+
+.summaryItem {
+  border: 1px solid #f1f1f1;
+  border-radius: 10px;
+  padding: 1.2rem 0.8rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.summaryItem span:first-child {
+  color: #6d6d6d;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.summaryItem span:last-child {
+  font-size: 1.95rem;
+  font-family: "Afacad", sans-serif;
+  font-weight: 700;
+}
+
+.valuePositive {
+  color: #28a745;
+}
+
+.valueNegative {
+  color: #e74c3c;
+}
+
+.totalAccumulated {
+  border-color: rgba(40, 167, 69, 0.6);
+  background-color: #eaf7ed;
+}
+
+.inputCard {
+  padding: 1.4rem;
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr 1fr auto;
+  gap: 0.8rem;
+  align-items: end;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.inputGroup label {
+  color: #555;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.inputGroup input,
+.inputGroup select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+}
+
+.btnAdd {
+  border: 0;
+  border-radius: 7px;
+  background-color: #7ab29f;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.65rem 1.15rem;
+  min-width: 160px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+.btnAdd:hover:not(:disabled) {
+  background-color: #6c9e8d;
+}
+.btnAdd:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.cancelEditButton {
+  margin-top: 0.8rem;
+  border: 0;
+  background: transparent;
+  color: #4a7766;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.cancelEditButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tableCard {
+  overflow-x: auto;
+}
+
+.tableCard table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.tableCard th,
+.tableCard td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.tableCard th {
+  color: #666;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  text-align: left;
+  letter-spacing: 0.02em;
+}
+
+.tableCard tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.actionsCell {
+  white-space: nowrap;
+}
+
+.iconButton {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #8a8a8a;
+  font-size: 1.05rem;
+  margin-right: 0.25rem;
+  transition: color 0.2s ease;
+}
+.iconButton:hover {
+  color: #4a7766;
+}
+.iconButton:last-child:hover {
+  color: #e74c3c;
+}
+.iconButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.badgeSuccess {
+  background-color: #28a745;
+}
+
+.badgeDanger {
+  background-color: #e74c3c;
+}
+
+.emptyState {
+  color: #666;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 960px) {
+  .dashboardContainer {
+    padding: 0 0.75rem;
+  }
+  .inputRow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .btnAdd {
+    min-width: 0;
+    width: 100%;
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 768px) {
+  .dashboardHeaderBar {
+    padding: 0.8rem 1rem;
+  }
+  .dashboardHeaderBar span {
+    font-size: 1.6rem;
+  }
+  .summaryCard {
+    padding: 1rem;
+  }
+  .currentPeriod {
+    font-size: 1.6rem;
+  }
+  .filterControls {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .summaryValues {
+    grid-template-columns: 1fr;
+  }
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
+  .tableCard table,
+  .tableCard thead,
+  .tableCard tbody,
+  .tableCard tr,
+  .tableCard td {
+    display: block;
+    width: 100%;
+  }
+  .tableCard thead {
+    display: none;
+  }
+  .tableCard table {
+    min-width: 0;
+  }
+  .tableCard tr {
+    border-bottom: 1px solid #ddd;
+    padding: 0.55rem 0;
+  }
+  .tableCard td {
+    border-bottom: 0;
+    position: relative;
+    padding: 0.4rem 0.75rem 0.4rem 48%;
+    text-align: right;
+  }
+  .tableCard td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0.75rem;
+    width: 42%;
+    text-align: left;
+    font-weight: 700;
+    color: #666;
+  }
+  .actionsCell {
+    text-align: center;
+    padding-left: 0.75rem;
+  }
+  .actionsCell::before {
+    display: none;
+  }
+  .emptyState {
+    text-align: left;
+    padding-left: 0.75rem;
+  }
+}/*# sourceMappingURL=Dashboard.module.css.map */

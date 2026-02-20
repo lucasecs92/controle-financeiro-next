@@ -78,6 +78,30 @@
   gap: 14px;
 }
 
+.errorMessageWrap {
+  background-color: $red-negative-light;
+  padding: 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.errorMessage {
+  color: $red-negative;
+  font-size: 0.85rem;
+}
+
+.infoMessageWrap {
+  background-color: #e6f4ea;
+  padding: 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.infoMessage {
+  color: $green-positive;
+  font-size: 0.85rem;
+}
+
 /* INPUTS */
 .input {
   width: 100%;
@@ -210,6 +234,11 @@
   &:hover {
     background-color: $primary-bg-hover;
     border-color: #ccc;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
   }
 
   svg {
