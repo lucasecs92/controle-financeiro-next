@@ -7,14 +7,11 @@ import {
   useState,
   type SyntheticEvent,
 } from "react";
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import Navbar from "@/components/layout/Navbar/Navbar";
 import Footer from "@/components/layout/Footer/Footer";
-import {
-  getSupabaseClient,
-  SUPABASE_ENV_ERROR,
-} from "@/lib/supabase/client";
+import { getSupabaseClient, SUPABASE_ENV_ERROR } from "@/lib/supabase/client";
 import styles from "./Dashboard.module.scss";
+import { TbEdit, TbTrash } from "react-icons/tb";
 
 type FilterType = "month" | "year";
 type TransactionType = "income" | "expense";
@@ -73,7 +70,9 @@ const toInputDate = (date = new Date()) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
 const sortTransactions = (items: readonly Transaction[]) =>
-  [...items].sort((a, b) => toDate(b.date).getTime() - toDate(a.date).getTime());
+  [...items].sort(
+    (a, b) => toDate(b.date).getTime() - toDate(a.date).getTime(),
+  );
 
 const formatDatabaseError = (message: string) => {
   if (message.includes('relation "transactions" does not exist')) {
@@ -149,7 +148,10 @@ export default function Dashboard({
       .eq("user_id", userId);
 
     if (error) {
-      setFeedback({ kind: "error", message: formatDatabaseError(error.message) });
+      setFeedback({
+        kind: "error",
+        message: formatDatabaseError(error.message),
+      });
       setIsLoadingTransactions(false);
       return;
     }
@@ -320,7 +322,10 @@ export default function Dashboard({
           ),
         ),
       );
-      setFeedback({ kind: "success", message: "Transação atualizada com sucesso." });
+      setFeedback({
+        kind: "success",
+        message: "Transação atualizada com sucesso.",
+      });
     } else {
       const { data, error } = await supabase
         .from("transactions")
@@ -359,7 +364,10 @@ export default function Dashboard({
       setTransactions((current) =>
         sortTransactions([...current, insertedTransaction]),
       );
-      setFeedback({ kind: "success", message: "Transação adicionada com sucesso." });
+      setFeedback({
+        kind: "success",
+        message: "Transação adicionada com sucesso.",
+      });
     }
 
     setFormData({
@@ -406,7 +414,10 @@ export default function Dashboard({
       .eq("user_id", userId);
 
     if (error) {
-      setFeedback({ kind: "error", message: formatDatabaseError(error.message) });
+      setFeedback({
+        kind: "error",
+        message: formatDatabaseError(error.message),
+      });
       setIsMutating(false);
       return;
     }
@@ -425,7 +436,10 @@ export default function Dashboard({
       });
     }
 
-    setFeedback({ kind: "success", message: "Transação removida com sucesso." });
+    setFeedback({
+      kind: "success",
+      message: "Transação removida com sucesso.",
+    });
     setIsMutating(false);
   };
 
@@ -447,7 +461,9 @@ export default function Dashboard({
         {feedback && (
           <section
             className={`${styles.statusMessage} ${
-              feedback.kind === "error" ? styles.errorStatus : styles.successStatus
+              feedback.kind === "error"
+                ? styles.errorStatus
+                : styles.successStatus
             }`}
           >
             {feedback.message}
@@ -461,7 +477,9 @@ export default function Dashboard({
             <section className={styles.filterControls}>
               <select
                 value={filterType}
-                onChange={(event) => setFilterType(event.target.value as FilterType)}
+                onChange={(event) =>
+                  setFilterType(event.target.value as FilterType)
+                }
               >
                 <option value="month">Por Mês</option>
                 <option value="year">Por Ano</option>
@@ -470,7 +488,9 @@ export default function Dashboard({
               {filterType === "month" && (
                 <select
                   value={selectedMonth}
-                  onChange={(event) => setSelectedMonth(Number(event.target.value))}
+                  onChange={(event) =>
+                    setSelectedMonth(Number(event.target.value))
+                  }
                 >
                   {MONTHS.map((monthName, index) => (
                     <option key={monthName} value={index + 1}>
@@ -482,7 +502,9 @@ export default function Dashboard({
 
               <select
                 value={selectedYear}
-                onChange={(event) => setSelectedYear(Number(event.target.value))}
+                onChange={(event) =>
+                  setSelectedYear(Number(event.target.value))
+                }
               >
                 {years.map((yearOption) => (
                   <option key={yearOption} value={yearOption}>
@@ -519,7 +541,9 @@ export default function Dashboard({
               </span>
             </section>
 
-            <section className={`${styles.summaryItem} ${styles.totalAccumulated}`}>
+            <section
+              className={`${styles.summaryItem} ${styles.totalAccumulated}`}
+            >
               <span>Total Acumulado</span>
               <span
                 className={
@@ -694,7 +718,7 @@ export default function Dashboard({
                         aria-label={`Editar ${transaction.description}`}
                         disabled={isMutating}
                       >
-                        <FiEdit2 />
+                        <TbEdit />
                       </button>
                       <button
                         type="button"
@@ -704,7 +728,7 @@ export default function Dashboard({
                         aria-label={`Excluir ${transaction.description}`}
                         disabled={isMutating}
                       >
-                        <FiTrash2 />
+                        <TbTrash />
                       </button>
                     </td>
                   </tr>
