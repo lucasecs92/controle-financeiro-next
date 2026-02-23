@@ -10,6 +10,7 @@ import {
   getSupabaseClient,
   SUPABASE_ENV_ERROR,
 } from "@/lib/supabase/client";
+import { getFriendlyAuthErrorMessage } from "@/features/auth/utils/authErrorMessage";
 
 interface RegisterModalProps {
   readonly onClose: () => void;
@@ -111,12 +112,15 @@ export default function RegisterModal({
       provider: "google",
       options: {
         redirectTo: `${window.location.origin}/`,
+        queryParams: {
+          prompt: "select_account",
+        },
       },
     });
 
     if (error) {
       setIsSubmitting(false);
-      setErrorMessage(error.message);
+      setErrorMessage(getFriendlyAuthErrorMessage(error.message));
     }
   };
 

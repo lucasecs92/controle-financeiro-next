@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Controle Financeiro
 
-## Getting Started
+Aplicação Next.js com autenticação via Supabase (e-mail/senha e Google OAuth) e dashboard de transações.
 
-First, run the development server:
+## 1. Configuração local
 
+1. Instale as dependências:
+```bash
+npm install
+```
+2. Crie `.env.local` com base em `.env.example`:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+```
+3. No Supabase, execute o SQL em `supabase/schema.sql`.
+4. Rode o projeto:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 2. Habilitar cadastro/login com Google
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para o botão "Registre-se com o Google" funcionar, configure o provider no Supabase:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Abra `Supabase > Authentication > Providers > Google`.
+2. Ative o provider Google.
+3. Crie as credenciais OAuth no Google Cloud e informe `Client ID` e `Client Secret` no Supabase.
+4. Em URLs de redirecionamento autorizadas no Google Cloud, inclua:
+```text
+https://<SEU_PROJECT_REF>.supabase.co/auth/v1/callback
+```
+5. Em `Supabase > Authentication > URL Configuration`, adicione os redirect URLs do app:
+```text
+http://localhost:3000/
+https://seu-dominio.com/
+```
 
-## Learn More
+Observação: com Supabase, `signInWithOAuth` cria usuário novo automaticamente quando o e-mail Google ainda não existe no projeto. Se o e-mail já existir, o fluxo faz login.
 
-To learn more about Next.js, take a look at the following resources:
+## 3. Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev`: ambiente de desenvolvimento
+- `npm run build`: build de produção
+- `npm run start`: iniciar build de produção
+- `npm run lint`: lint do projeto
