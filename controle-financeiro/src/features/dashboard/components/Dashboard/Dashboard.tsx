@@ -12,6 +12,7 @@ import Footer from "@/components/layout/Footer/Footer";
 import { getSupabaseClient, SUPABASE_ENV_ERROR } from "@/lib/supabase/client";
 import styles from "./Dashboard.module.scss";
 import { TbEdit, TbTrash } from "react-icons/tb";
+import EditTransactionModal from "../EditTransactionModal/EditTransactionModal";
 
 type FilterType = "month" | "year";
 type TransactionType = "income" | "expense";
@@ -37,6 +38,13 @@ interface SupabaseTransactionRow {
   readonly description: string;
   readonly type: string;
   readonly amount: number | string;
+}
+
+interface TransactionFormData {
+  readonly date: string;
+  readonly description: string;
+  readonly type: TransactionType | "";
+  readonly amount: string;
 }
 
 type Feedback = {
@@ -123,10 +131,13 @@ export default function Dashboard({
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [editFormData, setEditFormData] = useState<TransactionFormData | null>(
+    null,
+  );
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(true);
   const [isMutating, setIsMutating] = useState(false);
   const [feedback, setFeedback] = useState<Feedback>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<TransactionFormData>({
     date: today,
     description: "",
     type: "" as TransactionType | "",
@@ -273,6 +284,14 @@ export default function Dashboard({
     !formData.type ||
     Number(formData.amount) <= 0;
 
+  const isEditSubmitDisabled =
+    isMutating ||
+    !editingId ||
+    !editFormData?.date ||
+    !editFormData?.description.trim() ||
+    !editFormData?.type ||
+    Number(editFormData?.amount ?? 0) <= 0;
+
   const handleTransactionSubmit = async (
     event: SyntheticEvent<HTMLFormElement>,
   ) => {
@@ -295,96 +314,47 @@ export default function Dashboard({
     setIsMutating(true);
     setFeedback(null);
 
-    if (editingId) {
-      const { data, error } = await supabase
-        .from("transactions")
-        .update({
-          date: formData.date,
-          description: formData.description.trim(),
-          type: transactionType,
-          amount,
-        })
-        .eq("id", editingId)
-        .eq("user_id", userId)
-        .select("id, date, description, type, amount");
+    const { data, error } = await supabase
+      .from("transactions")
+      .insert({
+        user_id: userId,
+        date: formData.date,
+        description: formData.description.trim(),
+        type: transactionType,
+        amount,
+      })
+      .select("id, date, description, type, amount");
 
-      if (error) {
-        setFeedback({
-          kind: "error",
-          message: formatDatabaseError(error.message),
-        });
-        setIsMutating(false);
-        return;
-      }
-
-      const updatedTransaction = normalizeRow(
-        data?.[0] as SupabaseTransactionRow | undefined,
-      );
-
-      if (!updatedTransaction) {
-        setFeedback({
-          kind: "error",
-          message:
-            "Não foi possível atualizar a transação. Verifique as políticas RLS da tabela transactions.",
-        });
-        setIsMutating(false);
-        return;
-      }
-
-      setTransactions((current) =>
-        sortTransactions(
-          current.map((transaction) =>
-            transaction.id === editingId ? updatedTransaction : transaction,
-          ),
-        ),
-      );
+    if (error) {
       setFeedback({
-        kind: "success",
-        message: "Transação atualizada com sucesso.",
+        kind: "error",
+        message: formatDatabaseError(error.message),
       });
-    } else {
-      const { data, error } = await supabase
-        .from("transactions")
-        .insert({
-          user_id: userId,
-          date: formData.date,
-          description: formData.description.trim(),
-          type: transactionType,
-          amount,
-        })
-        .select("id, date, description, type, amount");
-
-      if (error) {
-        setFeedback({
-          kind: "error",
-          message: formatDatabaseError(error.message),
-        });
-        setIsMutating(false);
-        return;
-      }
-
-      const insertedTransaction = normalizeRow(
-        data?.[0] as SupabaseTransactionRow | undefined,
-      );
-
-      if (!insertedTransaction) {
-        setFeedback({
-          kind: "error",
-          message:
-            "Não foi possível salvar a transação. Verifique as políticas RLS da tabela transactions.",
-        });
-        setIsMutating(false);
-        return;
-      }
-
-      setTransactions((current) =>
-        sortTransactions([...current, insertedTransaction]),
-      );
-      setFeedback({
-        kind: "success",
-        message: "Transação adicionada com sucesso.",
-      });
+      setIsMutating(false);
+      return;
     }
+
+    const insertedTransaction = normalizeRow(
+      data?.[0] as SupabaseTransactionRow | undefined,
+    );
+
+    if (!insertedTransaction) {
+      setFeedback({
+        kind: "error",
+        message:
+          "Não foi possível salvar a transação. Verifique as políticas RLS da tabela transactions.",
+      });
+      setIsMutating(false);
+      return;
+    }
+
+    setTransactions((current) =>
+      sortTransactions([...current, insertedTransaction]),
+    );
+    setFeedback({
+      kind: "success",
+      message: "Transação adicionada com sucesso.",
+    });
 
     setFormData({
       date: toInputDate(),
@@ -392,18 +362,96 @@ export default function Dashboard({
       type: "",
       amount: "",
     });
+    setIsMutating(false);
+  };
+
+  const handleEditSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const supabase = getSupabaseClient();
+
+    if (!supabase) {
+      setFeedback({ kind: "error", message: SUPABASE_ENV_ERROR });
+      return;
+    }
+
+    if (!editingId || !editFormData) {
+      return;
+    }
+
+    const amount = Number(editFormData.amount);
+
+    if (!editFormData.type || !Number.isFinite(amount) || amount <= 0) {
+      return;
+    }
+
+    setIsMutating(true);
+    setFeedback(null);
+
+    const { data, error } = await supabase
+      .from("transactions")
+      .update({
+        date: editFormData.date,
+        description: editFormData.description.trim(),
+        type: editFormData.type,
+        amount,
+      })
+      .eq("id", editingId)
+      .eq("user_id", userId)
+      .select("id, date, description, type, amount");
+
+    if (error) {
+      setFeedback({
+        kind: "error",
+        message: formatDatabaseError(error.message),
+      });
+      setIsMutating(false);
+      return;
+    }
+
+    const updatedTransaction = normalizeRow(
+      data?.[0] as SupabaseTransactionRow | undefined,
+    );
+
+    if (!updatedTransaction) {
+      setFeedback({
+        kind: "error",
+        message:
+          "Não foi possível atualizar a transação. Verifique as políticas RLS da tabela transactions.",
+      });
+      setIsMutating(false);
+      return;
+    }
+
+    setTransactions((current) =>
+      sortTransactions(
+        current.map((transaction) =>
+          transaction.id === editingId ? updatedTransaction : transaction,
+        ),
+      ),
+    );
+    setFeedback({
+      kind: "success",
+      message: "Transação atualizada com sucesso.",
+    });
     setEditingId(null);
+    setEditFormData(null);
     setIsMutating(false);
   };
 
   const handleEdit = (transaction: Transaction) => {
     setEditingId(transaction.id);
-    setFormData({
+    setEditFormData({
       date: transaction.date,
       description: transaction.description,
       type: transaction.type,
       amount: String(transaction.amount),
     });
+  };
+
+  const handleCloseEditModal = () => {
+    setEditingId(null);
+    setEditFormData(null);
   };
 
   const handleDelete = async (transactionId: string) => {
@@ -443,13 +491,7 @@ export default function Dashboard({
     );
 
     if (editingId === transactionId) {
-      setEditingId(null);
-      setFormData({
-        date: toInputDate(),
-        description: "",
-        type: "",
-        amount: "",
-      });
+      handleCloseEditModal();
     }
 
     setFeedback({
@@ -479,22 +521,23 @@ export default function Dashboard({
             </output>
           )}
 
-          {feedback &&
-            (feedback.kind === "error" ? (
-              <section
-                className={`${styles.statusMessage} ${styles.errorStatus}`}
-                role="alert"
-              >
-                {feedback.message}
-              </section>
-            ) : (
-              <output
-                className={`${styles.statusMessage} ${styles.successStatus}`}
-                aria-live="polite"
-              >
-                {feedback.message}
-              </output>
-            ))}
+          {feedback?.kind === "error" && (
+            <section
+              className={`${styles.statusMessage} ${styles.errorStatus}`}
+              role="alert"
+            >
+              {feedback.message}
+            </section>
+          )}
+
+          {feedback?.kind === "success" && (
+            <output
+              className={`${styles.statusMessage} ${styles.successStatus}`}
+              aria-live="polite"
+            >
+              {feedback.message}
+            </output>
+          )}
         </section>
       )}
 
@@ -663,27 +706,10 @@ export default function Dashboard({
                   className={styles.btnAdd}
                   disabled={isSubmitDisabled}
                 >
-                  {editingId ? "SALVAR" : "ADICIONAR"}
+                  ADICIONAR
                 </button>
               </section>
             </form>
-            {editingId && (
-              <button
-                type="button"
-                className={styles.cancelEditButton}
-                onClick={() => {
-                  setEditingId(null);
-                  setFormData({
-                    date: toInputDate(),
-                    description: "",
-                    type: "",
-                    amount: "",
-                  });
-                }}
-              >
-                Cancelar edição
-              </button>
-            )}
           </section>
           <section className={styles.tableCard}>
             <table>
@@ -761,6 +787,17 @@ export default function Dashboard({
           </section>
         </section>
       </main>
+
+      {editingId && editFormData && (
+        <EditTransactionModal
+          formData={editFormData}
+          isMutating={isMutating}
+          isSubmitDisabled={isEditSubmitDisabled}
+          onClose={handleCloseEditModal}
+          onSubmit={handleEditSubmit}
+          onFormDataChange={setEditFormData}
+        />
+      )}
 
       <Footer />
     </section>

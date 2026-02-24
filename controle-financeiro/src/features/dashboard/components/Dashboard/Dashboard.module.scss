@@ -230,21 +230,6 @@
   }
 }
 
-.cancelEditButton {
-  margin-top: 0.8rem;
-  border: 0;
-  background: transparent;
-  color: $primary-green;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: underline;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
 .tableCard {
   overflow-x: auto;
 }
