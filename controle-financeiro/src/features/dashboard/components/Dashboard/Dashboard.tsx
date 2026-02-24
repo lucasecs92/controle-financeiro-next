@@ -178,6 +178,20 @@ export default function Dashboard({
     };
   }, [loadTransactions]);
 
+  useEffect(() => {
+    if (!feedback) {
+      return;
+    }
+
+    const timer = globalThis.setTimeout(() => {
+      setFeedback(null);
+    }, 5000);
+
+    return () => {
+      globalThis.clearTimeout(timer);
+    };
+  }, [feedback]);
+
   const years = useMemo(() => {
     const values = new Set<number>([currentYear, selectedYear]);
 
@@ -454,28 +468,40 @@ export default function Dashboard({
         onLogoClick={onOpenHero}
       />
 
+      {(isLoadingTransactions || feedback) && (
+        <section className={styles.statusStack}>
+          {isLoadingTransactions && (
+            <output
+              className={`${styles.statusMessage} ${styles.infoStatus}`}
+              aria-live="polite"
+            >
+              Carregando transações...
+            </output>
+          )}
+
+          {feedback &&
+            (feedback.kind === "error" ? (
+              <section
+                className={`${styles.statusMessage} ${styles.errorStatus}`}
+                role="alert"
+              >
+                {feedback.message}
+              </section>
+            ) : (
+              <output
+                className={`${styles.statusMessage} ${styles.successStatus}`}
+                aria-live="polite"
+              >
+                {feedback.message}
+              </output>
+            ))}
+        </section>
+      )}
+
       <main className={styles.dashboardContainer}>
         <section className={styles.dashboardHeaderBar}>
           <span>Dashboard</span>
         </section>
-
-        {isLoadingTransactions && (
-          <section className={`${styles.statusMessage} ${styles.infoStatus}`}>
-            Carregando transações...
-          </section>
-        )}
-
-        {feedback && (
-          <section
-            className={`${styles.statusMessage} ${
-              feedback.kind === "error"
-                ? styles.errorStatus
-                : styles.successStatus
-            }`}
-          >
-            {feedback.message}
-          </section>
-        )}
 
         <section className={styles.cardsWrap}>
           <section className={styles.summaryCard}>
@@ -536,7 +562,9 @@ export default function Dashboard({
                 <span>Balanço (Período)</span>
                 <span
                   className={
-                    periodTotal >= 0 ? styles.valuePositive : styles.valueNegative
+                    periodTotal >= 0
+                      ? styles.valuePositive
+                      : styles.valueNegative
                   }
                 >
                   {currencyFormatter.format(periodTotal)}
