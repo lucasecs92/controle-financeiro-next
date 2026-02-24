@@ -45,7 +45,7 @@ export default function RegisterModal({
   }, [onClose]);
 
   const handleRegisterSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
+    event: React.SubmitEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
 
@@ -77,7 +77,7 @@ export default function RegisterModal({
         data: {
           name: name.trim(),
         },
-        emailRedirectTo: `${window.location.origin}/`,
+        emailRedirectTo: `${globalThis.location.origin}/`,
       },
     });
 
@@ -111,7 +111,7 @@ export default function RegisterModal({
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${globalThis.location.origin}/`,
         queryParams: {
           prompt: "select_account",
         },

@@ -39,7 +39,7 @@ export default function LoginModal({
     return () => document.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
-  const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLoginSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const supabase = getSupabaseClient();
@@ -86,7 +86,7 @@ export default function LoginModal({
     setIsSubmitting(true);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${window.location.origin}/`,
+      redirectTo: `${globalThis.location.origin}/`,
     });
 
     setIsSubmitting(false);
@@ -114,7 +114,7 @@ export default function LoginModal({
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${globalThis.location.origin}/`,
         queryParams: {
           prompt: "select_account",
         },
