@@ -55,6 +55,15 @@
   background-color: #3e6256;
 }
 
+.btnSecondaryLight {
+  background-color: #fff;
+  color: #4a7766;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.btnSecondaryLight:hover {
+  background-color: #f4f4f4;
+}
+
 .screenContainer {
   width: 100%;
   display: flex;
