@@ -146,7 +146,7 @@
 }
 
 .summaryItem {
-  border: 1px solid #f1f1f1;
+  border: 1px solid $primary-bg-hover;
   border-radius: 10px;
   padding: 1.2rem 0.8rem;
   text-align: center;
@@ -155,7 +155,7 @@
   gap: 0.25rem;
 
   span:first-child {
-    color: #6d6d6d;
+    color: $gray-text-darken;
     font-size: 0.95rem;
     font-weight: 600;
   }
@@ -214,8 +214,7 @@
   background-color: $button-hover-lighten;
   color: $light-text;
   font-weight: 700;
-  padding: 0.65rem 1.15rem;
-  height: 4.4vh;
+  padding: 0.85rem 1.15rem;
   min-width: 160px;
   cursor: pointer;
   transition: background-color 0.2s ease, opacity 0.2s ease;
@@ -266,7 +265,7 @@
   border: 0;
   background: transparent;
   cursor: pointer;
-  color: #8a8a8a;
+  color: $gray-text;
   font-size: 1.4rem;
   margin-right: 0.25rem;
   transition: color 0.2s ease;

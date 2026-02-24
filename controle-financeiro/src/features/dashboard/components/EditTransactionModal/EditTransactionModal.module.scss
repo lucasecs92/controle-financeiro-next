@@ -44,7 +44,7 @@
 .closeBtn {
   border: none;
   background: transparent;
-  color: #bfc2c4;
+  color: $gray-text;
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -54,7 +54,7 @@
   padding: 0.15rem;
 
   &:hover:not(:disabled) {
-    color: #8b8d8f;
+    color: $gray-text-darken;
   }
 
   &:disabled {
@@ -77,7 +77,7 @@
   label {
     font-size: 0.9rem;
     font-weight: 700;
-    color: #555;
+    color: $gray-text-darken;
   }
 
   input,
@@ -87,7 +87,7 @@
     border-radius: 5px;
     font-size: 0.95rem;
     color: $dark-text;
-    background-color: #fff;
+    background-color: $card-bg;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
