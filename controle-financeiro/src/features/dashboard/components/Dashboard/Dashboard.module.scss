@@ -11,9 +11,6 @@
   width: 100%;
   margin: 1.5rem auto 6rem;
   padding: 0 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
 }
 
 .statusMessage {
@@ -63,6 +60,12 @@
     opacity: 0.9;
     font-size: 0.85rem;
   }
+}
+
+.cardsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .summaryCard,

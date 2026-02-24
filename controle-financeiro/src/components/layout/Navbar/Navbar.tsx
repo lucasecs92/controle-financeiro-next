@@ -14,12 +14,16 @@ type AuthenticatedNavbarProps = {
   readonly mode: "authenticated";
   readonly userName: string;
   readonly onLogout: () => Promise<void> | void;
+  readonly onLogoClick?: () => void;
+  readonly variant?: "default" | "landing";
 };
 
 type NavbarProps = PublicNavbarProps | AuthenticatedNavbarProps;
 
 export default function Navbar(props: NavbarProps) {
   const isAuthenticated = props.mode === "authenticated";
+  const isLandingVariant =
+    props.mode === "authenticated" && props.variant === "landing";
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLElement | null>(null);
 
@@ -55,12 +59,23 @@ export default function Navbar(props: NavbarProps) {
 
   return (
     <header
-      className={`${styles.navbar} ${isAuthenticated ? styles.navbarAuthenticated : ""}`}
+      className={`${styles.navbar} ${
+        isAuthenticated && !isLandingVariant ? styles.navbarAuthenticated : ""
+      }`}
     >
       <nav className={styles.navbarContent}>
         <Link
           href="/"
-          className={`${styles.logo} ${isAuthenticated ? styles.logoAuthenticated : ""}`}
+          className={`${styles.logo} ${
+            isAuthenticated && !isLandingVariant ? styles.logoAuthenticated : ""
+          }`}
+          onClick={(event) => {
+            if (isAuthenticated && props.onLogoClick) {
+              event.preventDefault();
+              setIsUserMenuOpen(false);
+              props.onLogoClick();
+            }
+          }}
         >
           Controle Financeiro
         </Link>
@@ -69,7 +84,9 @@ export default function Navbar(props: NavbarProps) {
           <section className={styles.userMenu} ref={userMenuRef}>
             <button
               type="button"
-              className={styles.userNameButton}
+              className={`${styles.userNameButton} ${
+                isLandingVariant ? styles.userNameButtonLanding : ""
+              }`}
               onClick={() => setIsUserMenuOpen((open) => !open)}
               aria-expanded={isUserMenuOpen}
               aria-haspopup="menu"

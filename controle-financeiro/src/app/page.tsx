@@ -11,12 +11,15 @@ import Dashboard from "@/features/dashboard/components/Dashboard/Dashboard";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
 type AuthModalType = "login" | "register" | null;
+type AuthenticatedView = "dashboard" | "hero";
 
 export default function Home() {
   const supabase = getSupabaseClient();
   const [authModal, setAuthModal] = useState<AuthModalType>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isAuthReady, setIsAuthReady] = useState(() => supabase === null);
+  const [authenticatedView, setAuthenticatedView] =
+    useState<AuthenticatedView>("dashboard");
 
   useEffect(() => {
     if (!supabase) {
@@ -36,9 +39,13 @@ export default function Home() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setSession(nextSession);
       setAuthModal(null);
+
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
+        setAuthenticatedView("dashboard");
+      }
     });
 
     return () => {
@@ -62,16 +69,39 @@ export default function Home() {
   }
 
   if (session) {
+    const userName =
+      session.user.user_metadata?.name ??
+      session.user.user_metadata?.full_name ??
+      session.user.email?.split("@")[0] ??
+      "Usuário";
+
+    if (authenticatedView === "hero") {
+      return (
+        <>
+          <Navbar
+            mode="authenticated"
+            variant="landing"
+            userName={userName}
+            onLogout={handleLogout}
+            onLogoClick={() => setAuthenticatedView("hero")}
+          />
+          <Hero
+            onPrimaryAction={() => setAuthenticatedView("dashboard")}
+            primaryActionLabel="Ir para o Dashboard"
+            showScreenshot={false}
+            actionVariant="light"
+          />
+          <Footer />
+        </>
+      );
+    }
+
     return (
       <Dashboard
         userId={session.user.id}
-        userName={
-          session.user.user_metadata?.name ??
-          session.user.user_metadata?.full_name ??
-          session.user.email?.split("@")[0] ??
-          "Usuário"
-        }
+        userName={userName}
         onLogout={handleLogout}
+        onOpenHero={() => setAuthenticatedView("hero")}
       />
     );
   }
@@ -79,7 +109,7 @@ export default function Home() {
   return (
     <>
       <Navbar onOpenLogin={() => setAuthModal("login")} />
-      <Hero onOpenRegister={() => setAuthModal("register")} />
+      <Hero onPrimaryAction={() => setAuthModal("register")} />
       <Footer />
 
       {authModal === "login" && (

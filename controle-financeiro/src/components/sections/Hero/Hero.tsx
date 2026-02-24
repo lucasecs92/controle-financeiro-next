@@ -2,10 +2,18 @@ import Image from "next/image";
 import styles from "./Hero.module.scss";
 
 interface HeroProps {
-  readonly onOpenRegister: () => void;
+  readonly onPrimaryAction: () => void;
+  readonly primaryActionLabel?: string;
+  readonly showScreenshot?: boolean;
+  readonly actionVariant?: "filled" | "light";
 }
 
-export default function Hero({ onOpenRegister }: HeroProps) {
+export default function Hero({
+  onPrimaryAction,
+  primaryActionLabel = "Começar agora",
+  showScreenshot = true,
+  actionVariant = "filled",
+}: HeroProps) {
   return (
     <section className={styles.pageContainer}>
       <main className={styles.mainContainer}>
@@ -25,24 +33,28 @@ export default function Hero({ onOpenRegister }: HeroProps) {
         </p>
 
         <button
-          className={styles.btnSecondary}
+          className={`${styles.btnSecondary} ${
+            actionVariant === "light" ? styles.btnSecondaryLight : ""
+          }`}
           id="btnCadastrarHome"
-          onClick={onOpenRegister}
+          onClick={onPrimaryAction}
         >
-          Começar agora
+          {primaryActionLabel}
         </button>
       </main>
 
-      <section className={styles.screenContainer}>
-        <Image
-          src="/images/screenshot.png"
-          alt="Screenshot da aplicação Controle Financeiro"
-          width={800}
-          height={600}
-          className={styles.dashboardScreenshot}
-          priority
-        />
-      </section>
+      {showScreenshot && (
+        <section className={styles.screenContainer}>
+          <Image
+            src="/images/screenshot.png"
+            alt="Screenshot da aplicação Controle Financeiro"
+            width={800}
+            height={600}
+            className={styles.dashboardScreenshot}
+            priority
+          />
+        </section>
+      )}
     </section>
   );
 }

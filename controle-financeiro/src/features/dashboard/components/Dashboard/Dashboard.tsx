@@ -20,6 +20,7 @@ interface DashboardProps {
   readonly userId: string;
   readonly userName: string;
   readonly onLogout: () => Promise<void> | void;
+  readonly onOpenHero: () => void;
 }
 
 interface Transaction {
@@ -110,6 +111,7 @@ export default function Dashboard({
   userId,
   userName,
   onLogout,
+  onOpenHero,
 }: DashboardProps) {
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
@@ -445,7 +447,12 @@ export default function Dashboard({
 
   return (
     <section className={styles.page}>
-      <Navbar mode="authenticated" userName={userName} onLogout={onLogout} />
+      <Navbar
+        mode="authenticated"
+        userName={userName}
+        onLogout={onLogout}
+        onLogoClick={onOpenHero}
+      />
 
       <main className={styles.dashboardContainer}>
         <section className={styles.dashboardHeaderBar}>
@@ -470,272 +477,260 @@ export default function Dashboard({
           </section>
         )}
 
-        <section className={styles.summaryCard}>
-          <section className={styles.summaryNav}>
-            <h2 className={styles.currentPeriod}>{currentPeriodLabel}</h2>
-
-            <section className={styles.filterControls}>
-              <select
-                value={filterType}
-                onChange={(event) =>
-                  setFilterType(event.target.value as FilterType)
-                }
-              >
-                <option value="month">Por Mês</option>
-                <option value="year">Por Ano</option>
-              </select>
-
-              {filterType === "month" && (
+        <section className={styles.cardsWrap}>
+          <section className={styles.summaryCard}>
+            <section className={styles.summaryNav}>
+              <h2 className={styles.currentPeriod}>{currentPeriodLabel}</h2>
+              <section className={styles.filterControls}>
                 <select
-                  value={selectedMonth}
+                  value={filterType}
                   onChange={(event) =>
-                    setSelectedMonth(Number(event.target.value))
+                    setFilterType(event.target.value as FilterType)
                   }
                 >
-                  {MONTHS.map((monthName, index) => (
-                    <option key={monthName} value={index + 1}>
-                      {monthName}
+                  <option value="month">Por Mês</option>
+                  <option value="year">Por Ano</option>
+                </select>
+                {filterType === "month" && (
+                  <select
+                    value={selectedMonth}
+                    onChange={(event) =>
+                      setSelectedMonth(Number(event.target.value))
+                    }
+                  >
+                    {MONTHS.map((monthName, index) => (
+                      <option key={monthName} value={index + 1}>
+                        {monthName}
+                      </option>
+                    ))}
+                  </select>
+                )}
+                <select
+                  value={selectedYear}
+                  onChange={(event) =>
+                    setSelectedYear(Number(event.target.value))
+                  }
+                >
+                  {years.map((yearOption) => (
+                    <option key={yearOption} value={yearOption}>
+                      {yearOption}
                     </option>
                   ))}
                 </select>
-              )}
-
-              <select
-                value={selectedYear}
-                onChange={(event) =>
-                  setSelectedYear(Number(event.target.value))
-                }
-              >
-                {years.map((yearOption) => (
-                  <option key={yearOption} value={yearOption}>
-                    {yearOption}
-                  </option>
-                ))}
-              </select>
-            </section>
-          </section>
-
-          <section className={styles.summaryValues}>
-            <section className={styles.summaryItem}>
-              <span>Entradas (Período)</span>
-              <span className={styles.valuePositive}>
-                {currencyFormatter.format(income)}
-              </span>
-            </section>
-
-            <section className={styles.summaryItem}>
-              <span>Saídas (Período)</span>
-              <span className={styles.valueNegative}>
-                {currencyFormatter.format(expense)}
-              </span>
-            </section>
-
-            <section className={styles.summaryItem}>
-              <span>Balanço (Período)</span>
-              <span
-                className={
-                  periodTotal >= 0 ? styles.valuePositive : styles.valueNegative
-                }
-              >
-                {currencyFormatter.format(periodTotal)}
-              </span>
-            </section>
-
-            <section
-              className={`${styles.summaryItem} ${styles.totalAccumulated}`}
-            >
-              <span>Total Acumulado</span>
-              <span
-                className={
-                  accumulatedTotal >= 0
-                    ? styles.valuePositive
-                    : styles.valueNegative
-                }
-              >
-                {currencyFormatter.format(accumulatedTotal)}
-              </span>
-            </section>
-          </section>
-        </section>
-
-        <section className={styles.inputCard}>
-          <form onSubmit={handleTransactionSubmit}>
-            <section className={styles.inputRow}>
-              <section className={styles.inputGroup}>
-                <label htmlFor="transaction-date">Data</label>
-                <input
-                  id="transaction-date"
-                  type="date"
-                  value={formData.date}
-                  disabled={isLoadingTransactions || isMutating}
-                  onChange={(event) =>
-                    setFormData((current) => ({
-                      ...current,
-                      date: event.target.value,
-                    }))
-                  }
-                  required
-                />
               </section>
-
-              <section className={styles.inputGroup}>
-                <label htmlFor="transaction-description">Descrição</label>
-                <input
-                  id="transaction-description"
-                  type="text"
-                  value={formData.description}
-                  disabled={isLoadingTransactions || isMutating}
-                  onChange={(event) =>
-                    setFormData((current) => ({
-                      ...current,
-                      description: event.target.value,
-                    }))
-                  }
-                  required
-                />
+            </section>
+            <section className={styles.summaryValues}>
+              <section className={styles.summaryItem}>
+                <span>Entradas (Período)</span>
+                <span className={styles.valuePositive}>
+                  {currencyFormatter.format(income)}
+                </span>
               </section>
-
-              <section className={styles.inputGroup}>
-                <label htmlFor="transaction-type">Categoria</label>
-                <select
-                  id="transaction-type"
-                  value={formData.type}
-                  disabled={isLoadingTransactions || isMutating}
-                  onChange={(event) =>
-                    setFormData((current) => ({
-                      ...current,
-                      type: event.target.value as TransactionType | "",
-                    }))
+              <section className={styles.summaryItem}>
+                <span>Saídas (Período)</span>
+                <span className={styles.valueNegative}>
+                  {currencyFormatter.format(expense)}
+                </span>
+              </section>
+              <section className={styles.summaryItem}>
+                <span>Balanço (Período)</span>
+                <span
+                  className={
+                    periodTotal >= 0 ? styles.valuePositive : styles.valueNegative
                   }
-                  required
                 >
-                  <option value="">Selecione</option>
-                  <option value="income">Entrada</option>
-                  <option value="expense">Saída</option>
-                </select>
+                  {currencyFormatter.format(periodTotal)}
+                </span>
               </section>
-
-              <section className={styles.inputGroup}>
-                <label htmlFor="transaction-amount">Valor</label>
-                <input
-                  id="transaction-amount"
-                  type="number"
-                  step="0.01"
-                  min="0.01"
-                  value={formData.amount}
-                  disabled={isLoadingTransactions || isMutating}
-                  onChange={(event) =>
-                    setFormData((current) => ({
-                      ...current,
-                      amount: event.target.value,
-                    }))
-                  }
-                  required
-                />
-              </section>
-
-              <button
-                type="submit"
-                className={styles.btnAdd}
-                disabled={isSubmitDisabled}
+              <section
+                className={`${styles.summaryItem} ${styles.totalAccumulated}`}
               >
-                {editingId ? "SALVAR" : "ADICIONAR"}
-              </button>
+                <span>Total Acumulado</span>
+                <span
+                  className={
+                    accumulatedTotal >= 0
+                      ? styles.valuePositive
+                      : styles.valueNegative
+                  }
+                >
+                  {currencyFormatter.format(accumulatedTotal)}
+                </span>
+              </section>
             </section>
-          </form>
-
-          {editingId && (
-            <button
-              type="button"
-              className={styles.cancelEditButton}
-              onClick={() => {
-                setEditingId(null);
-                setFormData({
-                  date: toInputDate(),
-                  description: "",
-                  type: "",
-                  amount: "",
-                });
-              }}
-            >
-              Cancelar edição
-            </button>
-          )}
-        </section>
-
-        <section className={styles.tableCard}>
-          <table>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Descrição</th>
-                <th>Categoria</th>
-                <th>Valor</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTransactions.length === 0 ? (
+          </section>
+          <section className={styles.inputCard}>
+            <form onSubmit={handleTransactionSubmit}>
+              <section className={styles.inputRow}>
+                <section className={styles.inputGroup}>
+                  <label htmlFor="transaction-date">Data</label>
+                  <input
+                    id="transaction-date"
+                    type="date"
+                    value={formData.date}
+                    disabled={isLoadingTransactions || isMutating}
+                    onChange={(event) =>
+                      setFormData((current) => ({
+                        ...current,
+                        date: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </section>
+                <section className={styles.inputGroup}>
+                  <label htmlFor="transaction-description">Descrição</label>
+                  <input
+                    id="transaction-description"
+                    type="text"
+                    value={formData.description}
+                    disabled={isLoadingTransactions || isMutating}
+                    onChange={(event) =>
+                      setFormData((current) => ({
+                        ...current,
+                        description: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </section>
+                <section className={styles.inputGroup}>
+                  <label htmlFor="transaction-type">Categoria</label>
+                  <select
+                    id="transaction-type"
+                    value={formData.type}
+                    disabled={isLoadingTransactions || isMutating}
+                    onChange={(event) =>
+                      setFormData((current) => ({
+                        ...current,
+                        type: event.target.value as TransactionType | "",
+                      }))
+                    }
+                    required
+                  >
+                    <option value="">Selecione</option>
+                    <option value="income">Entrada</option>
+                    <option value="expense">Saída</option>
+                  </select>
+                </section>
+                <section className={styles.inputGroup}>
+                  <label htmlFor="transaction-amount">Valor</label>
+                  <input
+                    id="transaction-amount"
+                    type="number"
+                    step="0.01"
+                    min="0.01"
+                    value={formData.amount}
+                    disabled={isLoadingTransactions || isMutating}
+                    onChange={(event) =>
+                      setFormData((current) => ({
+                        ...current,
+                        amount: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </section>
+                <button
+                  type="submit"
+                  className={styles.btnAdd}
+                  disabled={isSubmitDisabled}
+                >
+                  {editingId ? "SALVAR" : "ADICIONAR"}
+                </button>
+              </section>
+            </form>
+            {editingId && (
+              <button
+                type="button"
+                className={styles.cancelEditButton}
+                onClick={() => {
+                  setEditingId(null);
+                  setFormData({
+                    date: toInputDate(),
+                    description: "",
+                    type: "",
+                    amount: "",
+                  });
+                }}
+              >
+                Cancelar edição
+              </button>
+            )}
+          </section>
+          <section className={styles.tableCard}>
+            <table>
+              <thead>
                 <tr>
-                  <td colSpan={5} className={styles.emptyState}>
-                    Nenhuma transação encontrada para o período selecionado.
-                  </td>
+                  <th>Data</th>
+                  <th>Descrição</th>
+                  <th>Categoria</th>
+                  <th>Valor</th>
+                  <th>Ações</th>
                 </tr>
-              ) : (
-                filteredTransactions.map((transaction) => (
-                  <tr key={transaction.id}>
-                    <td data-label="Data">
-                      {dateFormatter.format(toDate(transaction.date))}
-                    </td>
-                    <td data-label="Descrição">{transaction.description}</td>
-                    <td data-label="Categoria">
-                      <span
-                        className={`${styles.badge} ${
-                          transaction.type === "income"
-                            ? styles.badgeSuccess
-                            : styles.badgeDanger
-                        }`}
-                      >
-                        {transaction.type === "income" ? "Entrada" : "Saída"}
-                      </span>
-                    </td>
-                    <td
-                      data-label="Valor"
-                      className={
-                        transaction.type === "income"
-                          ? styles.valuePositive
-                          : styles.valueNegative
-                      }
-                    >
-                      {currencyFormatter.format(transaction.amount)}
-                    </td>
-                    <td data-label="Ações" className={styles.actionsCell}>
-                      <button
-                        type="button"
-                        className={styles.iconButton}
-                        onClick={() => handleEdit(transaction)}
-                        title="Editar"
-                        aria-label={`Editar ${transaction.description}`}
-                        disabled={isMutating}
-                      >
-                        <TbEdit />
-                      </button>
-                      <button
-                        type="button"
-                        className={styles.iconButton}
-                        onClick={() => handleDelete(transaction.id)}
-                        title="Excluir"
-                        aria-label={`Excluir ${transaction.description}`}
-                        disabled={isMutating}
-                      >
-                        <TbTrash />
-                      </button>
+              </thead>
+              <tbody>
+                {filteredTransactions.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className={styles.emptyState}>
+                      Nenhuma transação encontrada para o período selecionado.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  filteredTransactions.map((transaction) => (
+                    <tr key={transaction.id}>
+                      <td data-label="Data">
+                        {dateFormatter.format(toDate(transaction.date))}
+                      </td>
+                      <td data-label="Descrição">{transaction.description}</td>
+                      <td data-label="Categoria">
+                        <span
+                          className={`${styles.badge} ${
+                            transaction.type === "income"
+                              ? styles.badgeSuccess
+                              : styles.badgeDanger
+                          }`}
+                        >
+                          {transaction.type === "income" ? "Entrada" : "Saída"}
+                        </span>
+                      </td>
+                      <td
+                        data-label="Valor"
+                        className={
+                          transaction.type === "income"
+                            ? styles.valuePositive
+                            : styles.valueNegative
+                        }
+                      >
+                        {currencyFormatter.format(transaction.amount)}
+                      </td>
+                      <td data-label="Ações" className={styles.actionsCell}>
+                        <button
+                          type="button"
+                          className={styles.iconButton}
+                          onClick={() => handleEdit(transaction)}
+                          title="Editar"
+                          aria-label={`Editar ${transaction.description}`}
+                          disabled={isMutating}
+                        >
+                          <TbEdit />
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.iconButton}
+                          onClick={() => handleDelete(transaction.id)}
+                          title="Excluir"
+                          aria-label={`Excluir ${transaction.description}`}
+                          disabled={isMutating}
+                        >
+                          <TbTrash />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </section>
         </section>
       </main>
 

@@ -60,6 +60,16 @@
   }
 }
 
+.btnSecondaryLight {
+  background-color: $light-text;
+  color: $primary-green;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    background-color: #f4f4f4;
+  }
+}
+
 .screenContainer {
   width: 100%;
   display: flex;
