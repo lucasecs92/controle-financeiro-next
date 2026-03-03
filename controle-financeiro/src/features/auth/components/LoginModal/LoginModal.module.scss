@@ -73,14 +73,21 @@
     width: 100%;
     padding: 12px 15px;
     border: 1px solid $border-color;
-    border-radius: 8px;
+    border-radius: 6px;
+    background-color: $primary-bg-hover;
+    color: $dark-text;
     font-size: 16px;
     box-sizing: border-box;
+
+    &::placeholder {
+      color: $gray-text;
+    }
 
     &:focus {
       border-color: $primary-green;
       outline: none;
       box-shadow: 0 0 0 2px rgba(106, 153, 78, 0.2);
+      background-color: $card-bg;
     }
   }
 }
@@ -89,7 +96,7 @@
   background-color: $red-negative-light;
   padding: 1rem;
   margin-bottom: 1rem;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .errorMessage {
@@ -101,7 +108,7 @@
   background-color: #e6f4ea;
   padding: 1rem;
   margin-bottom: 1rem;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .infoMessage {
@@ -165,7 +172,7 @@
   width: 100%;
   padding: 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: $primary-green;
   color: $light-text;
   font-size: 16px;
@@ -213,7 +220,7 @@
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: $card-bg;
   color: $gray-text-darken;
   font-size: 15px;

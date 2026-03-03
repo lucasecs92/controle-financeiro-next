@@ -10,6 +10,7 @@ import {
   SUPABASE_ENV_ERROR,
 } from "@/lib/supabase/client";
 import { getFriendlyAuthErrorMessage } from "@/features/auth/utils/authErrorMessage";
+import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
 
 interface LoginModalProps {
   readonly onClose: () => void;
@@ -21,6 +22,7 @@ export default function LoginModal({
   onOpenRegister,
 }: LoginModalProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -31,13 +33,18 @@ export default function LoginModal({
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        if (isForgotPasswordModalOpen) {
+          setIsForgotPasswordModalOpen(false);
+          return;
+        }
+
         onClose();
       }
     };
 
     document.addEventListener("keydown", handleEsc);
     return () => document.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+  }, [isForgotPasswordModalOpen, onClose]);
 
   const handleLoginSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,35 +75,12 @@ export default function LoginModal({
     onClose();
   };
 
-  const handleForgotPassword = async () => {
-    const supabase = getSupabaseClient();
+  const openForgotPasswordModal = () => {
+    setIsForgotPasswordModalOpen(true);
+  };
 
-    if (!supabase) {
-      setErrorMessage(SUPABASE_ENV_ERROR);
-      return;
-    }
-
-    if (!email.trim()) {
-      setErrorMessage("Informe seu e-mail para recuperar a senha.");
-      return;
-    }
-
-    setErrorMessage(null);
-    setInfoMessage(null);
-    setIsSubmitting(true);
-
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${globalThis.location.origin}/`,
-    });
-
-    setIsSubmitting(false);
-
-    if (error) {
-      setErrorMessage(error.message);
-      return;
-    }
-
-    setInfoMessage("Verifique seu e-mail para redefinir sua senha.");
+  const closeForgotPasswordModal = () => {
+    setIsForgotPasswordModalOpen(false);
   };
 
   const handleGoogleLogin = async () => {
@@ -202,7 +186,7 @@ export default function LoginModal({
               <button
                 type="button"
                 className={styles.forgotPassword}
-                onClick={handleForgotPassword}
+                onClick={openForgotPasswordModal}
                 disabled={isSubmitting}
               >
                 Esqueceu a senha?
@@ -240,6 +224,12 @@ export default function LoginModal({
           </p>
         </section>
       </section>
+
+      <ForgotPasswordModal
+        isOpen={isForgotPasswordModalOpen}
+        onClose={closeForgotPasswordModal}
+        initialEmail={email}
+      />
     </section>
   );
 }

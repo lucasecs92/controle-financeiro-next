@@ -41,7 +41,7 @@
 .closeBtn {
   border: none;
   background: transparent;
-  color: #bfc2c4;
+  color: #a0a0a0;
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -51,7 +51,7 @@
   padding: 0.15rem;
 }
 .closeBtn:hover:not(:disabled) {
-  color: #8b8d8f;
+  color: #555;
 }
 .closeBtn:disabled {
   cursor: not-allowed;
