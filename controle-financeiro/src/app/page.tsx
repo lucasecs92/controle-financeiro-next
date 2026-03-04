@@ -74,6 +74,7 @@ export default function Home() {
       session.user.user_metadata?.full_name ??
       session.user.email?.split("@")[0] ??
       "Usuário";
+    const userEmail = session.user.email ?? undefined;
 
     if (authenticatedView === "hero") {
       return (
@@ -82,6 +83,7 @@ export default function Home() {
             mode="authenticated"
             variant="landing"
             userName={userName}
+            userEmail={userEmail}
             onLogout={handleLogout}
             onLogoClick={() => setAuthenticatedView("hero")}
           />
@@ -100,6 +102,7 @@ export default function Home() {
       <Dashboard
         userId={session.user.id}
         userName={userName}
+        userEmail={userEmail}
         onLogout={handleLogout}
         onOpenHero={() => setAuthenticatedView("hero")}
       />

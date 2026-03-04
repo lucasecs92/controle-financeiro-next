@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import AccountSettingsModal from "@/features/account/components/AccountSettingsModal/AccountSettingsModal";
 import styles from "./Navbar.module.scss";
+import { RxExit } from "react-icons/rx";
+import { PiGear } from "react-icons/pi";
 
 type PublicNavbarProps = {
   readonly mode?: "public";
@@ -13,6 +16,7 @@ type PublicNavbarProps = {
 type AuthenticatedNavbarProps = {
   readonly mode: "authenticated";
   readonly userName: string;
+  readonly userEmail?: string;
   readonly onLogout: () => Promise<void> | void;
   readonly onLogoClick?: () => void;
   readonly variant?: "default" | "landing";
@@ -25,6 +29,7 @@ export default function Navbar(props: NavbarProps) {
   const isLandingVariant =
     props.mode === "authenticated" && props.variant === "landing";
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const userMenuRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -33,6 +38,10 @@ export default function Navbar(props: NavbarProps) {
     }
 
     const handleClickOutside = (event: MouseEvent) => {
+      if (!isUserMenuOpen) {
+        return;
+      }
+
       if (!userMenuRef.current) {
         return;
       }
@@ -102,6 +111,18 @@ export default function Navbar(props: NavbarProps) {
               <section className={styles.userDropdown} role="menu">
                 <button
                   type="button"
+                  className={styles.settingsDropdownButton}
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    setIsSettingsModalOpen(true);
+                  }}
+                  role="menuitem"
+                >
+                  <PiGear />
+                  Configurações
+                </button>
+                <button
+                  type="button"
                   className={styles.logoutDropdownButton}
                   onClick={async () => {
                     setIsUserMenuOpen(false);
@@ -109,6 +130,7 @@ export default function Navbar(props: NavbarProps) {
                   }}
                   role="menuitem"
                 >
+                  <RxExit />
                   Sair
                 </button>
               </section>
@@ -124,6 +146,15 @@ export default function Navbar(props: NavbarProps) {
           </button>
         )}
       </nav>
+
+      {isAuthenticated && isSettingsModalOpen && (
+        <AccountSettingsModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+          userName={props.userName}
+          userEmail={props.userEmail}
+        />
+      )}
     </header>
   );
 }

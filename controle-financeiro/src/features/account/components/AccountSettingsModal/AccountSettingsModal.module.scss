@@ -1,0 +1,156 @@
+@use '../../../../styles/variables' as *;
+
+.settingsModalLayer {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    z-index: 100;
+}
+
+.settingsModalOverlay {
+    position: absolute;
+    inset: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.52);
+    cursor: pointer;
+}
+
+.settingsModal {
+    width: min(100%, 500px);
+    margin: 0;
+    border: none;
+    background: $card-bg;
+    border-radius: 16px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+    padding: 2rem 1.8rem 1.6rem;
+    position: relative;
+    z-index: 1;
+}
+
+.settingsTitle {
+    margin: 0;
+    text-align: center;
+    color: $dark-text;
+    font-size: 1.5rem;
+}
+
+.settingsUserInfo {
+    margin: 1.8rem 0 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border-color;
+    color: $primary-green;
+    font-size: 1rem;
+}
+
+.dangerZone {
+    margin-top: 1.2rem;
+    padding: 1rem;
+    border: 1px solid rgba(231, 76, 60, 0.45);
+    border-radius: 10px;
+    background: #fff5f4;
+}
+
+.dangerZoneTitle {
+    margin: 0;
+    color: $red-negative;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.dangerZoneDescription {
+    margin: 0.45rem 0 1rem;
+    color: $red-negative;
+    line-height: 1.45;
+    font-size: 0.950rem;
+}
+
+.deleteAccountButton {
+    width: 100%;
+    border: 1px solid $red-negative;
+    border-radius: 8px;
+    padding: 0.7rem;
+    background-color: transparent;
+    color: $red-negative;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $red-negative;
+        color: $light-text;
+    }
+}
+
+.deleteConfirmWrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.passwordLabel {
+    font-size: 0.9rem;
+    color: $dark-text;
+}
+
+.passwordInput {
+    border: 1px solid rgba(231, 76, 60, 0.7);
+    border-radius: 8px;
+    padding: 0.65rem 0.8rem;
+    font-size: 1rem;
+}
+
+.deleteActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    padding-top: 1rem;
+}
+
+.cancelDeleteButton,
+.confirmDeleteButton {
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cancelDeleteButton {
+    background: #e1e1e1;
+    color: $dark-text;
+}
+
+.confirmDeleteButton {
+    background: $red-negative;
+    color: $light-text;
+}
+
+.confirmDeleteButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .settingsModal {
+        padding: 1.6rem 1rem 1.2rem;
+    }
+
+    .settingsTitle {
+        font-size: 1.7rem;
+    }
+
+    .settingsUserInfo {
+        font-size: 1.2rem;
+    }
+
+    .dangerZoneTitle {
+        font-size: 1.6rem;
+    }
+
+    .passwordLabel {
+        font-size: 1.15rem;
+    }
+}

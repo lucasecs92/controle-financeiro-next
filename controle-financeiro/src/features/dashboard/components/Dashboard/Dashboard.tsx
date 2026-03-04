@@ -20,6 +20,7 @@ type TransactionType = "income" | "expense";
 interface DashboardProps {
   readonly userId: string;
   readonly userName: string;
+  readonly userEmail?: string;
   readonly onLogout: () => Promise<void> | void;
   readonly onOpenHero: () => void;
 }
@@ -118,6 +119,7 @@ const normalizeRow = (
 export default function Dashboard({
   userId,
   userName,
+  userEmail,
   onLogout,
   onOpenHero,
 }: DashboardProps) {
@@ -506,6 +508,7 @@ export default function Dashboard({
       <Navbar
         mode="authenticated"
         userName={userName}
+        userEmail={userEmail}
         onLogout={onLogout}
         onLogoClick={onOpenHero}
       />
