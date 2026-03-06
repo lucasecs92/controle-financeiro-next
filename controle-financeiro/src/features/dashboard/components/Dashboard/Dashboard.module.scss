@@ -205,7 +205,12 @@
   select {
     width: 100%;
     padding: 0.65rem 0.75rem;
+    font-size: 0.950rem;
   }
+}
+
+.inputData {
+  height: 5vh;
 }
 
 .btnAdd {
@@ -214,7 +219,8 @@
   background-color: $button-hover-lighten;
   color: $light-text;
   font-weight: 700;
-  padding: 0.85rem 1.15rem;
+  padding: 0.65rem 0.75rem;
+  height: 5vh;
   min-width: 160px;
   cursor: pointer;
   transition: background-color 0.2s ease, opacity 0.2s ease;

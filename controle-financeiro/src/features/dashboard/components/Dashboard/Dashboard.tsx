@@ -638,6 +638,7 @@ export default function Dashboard({
                 <section className={styles.inputGroup}>
                   <label htmlFor="transaction-date">Data</label>
                   <input
+                    className={styles.inputData}
                     id="transaction-date"
                     type="date"
                     value={formData.date}
