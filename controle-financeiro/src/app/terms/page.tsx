@@ -27,13 +27,12 @@ export default function TermsPage() {
           <p className={styles.paragraph}>
             Seja Bem-Vindo ao site do Controle Financeiro. Antes de explorar tudo o
             que temos a oferecer, e importante que voce entenda e concorde com
-            algumas regras basicas que regem o uso do nosso site
-            {" "}
+            algumas regras basicas que regem o uso do nosso site{" "}
             <a href="http://ctrlfinanceiro.vercel.app/">
               http://ctrlfinanceiro.vercel.app/
             </a>
-            , e qualquer outro servico digital que nos oferecemos, como lojas e
-            plataformas de e-commerce.
+            {", e qualquer outro servico digital que nos oferecemos, como lojas e"}
+            {" plataformas de e-commerce."}
           </p>
           <p className={styles.paragraph}>
             Ao usar nosso site e servicos, voce automaticamente concorda em seguir
@@ -50,7 +49,7 @@ export default function TermsPage() {
             automaticamente com nossas regras e condicoes. Estamos sempre
             procurando melhorar, entao esses termos podem mudar de vez em quando.
             Se fizermos alteracoes significativas, vamos postar as atualizacoes
-            aqui no site. Continuar usando o site apos essas mudancas significa
+            aqui no site. Continuar usando o site apos essas mudanças significa
             que voce aceita os novos termos.
           </p>
         </section>
@@ -61,8 +60,8 @@ export default function TermsPage() {
             A maior parte do nosso site esta aberta para voce sem a necessidade de
             cadastro. No entanto, algumas secoes especiais podem exigir que voce
             crie uma conta. Pedimos que voce seja honesto ao fornecer suas
-            informacoes e que mantenha sua senha e login seguros. Se decidir
-            compartilhar algum conteudo conosco, como comentarios, por favor,
+            informações e que mantenha sua senha e login seguros. Se decidir
+            compartilhar algum conteúdo conosco, como comentarios, por favor,
             faca-o de maneira respeitosa e dentro da lei.
           </p>
         </section>
@@ -71,40 +70,40 @@ export default function TermsPage() {
           <h2 className={styles.sectionTitle}>3. Sua Privacidade</h2>
           <p className={styles.paragraph}>
             Na Controle Financeiro, a privacidade e um valor essencial. Ao
-            interagir com nosso site, voce aceita nossa Politica de Privacidade,
+            interagir com nosso site, voce aceita nossa Política de Privacidade,
             que detalha nossa abordagem responsavel e conforme as leis para o
             manejo dos seus dados pessoais. Nosso compromisso e com a
-            transparencia e a seguranca: explicamos como coletamos, usamos e
-            protegemos suas informacoes, garantindo sua privacidade e oferecendo
+            transparencia e a segurança: explicamos como coletamos, usamos e
+            protegemos suas informações, garantindo sua privacidade e oferecendo
             controle sobre seus dados.
           </p>
           <p className={styles.paragraph}>
-            Adotamos praticas de seguranca para proteger suas informacoes contra
+            Adotamos praticas de segurança para proteger suas informações contra
             acesso nao autorizado e compartilhamento indevido, assegurando que
             qualquer cooperacao com terceiros ocorra apenas com base na sua
             aprovacao ou exigencias legais claras, reafirmando nosso
-            comprometimento com a sua confianca e seguranca digital.
+            comprometimento com a sua confianca e segurança digital.
           </p>
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>4. Direitos de Conteudo</h2>
+          <h2 className={styles.sectionTitle}>4. Direitos de Conteúdo</h2>
           <p className={styles.paragraph}>
-            O conteudo disponivel no site da Controle Financeiro, incluindo, mas
+            O conteúdo disponível no site da Controle Financeiro, incluindo, mas
             nao se limitando a, textos, imagens, ilustracoes, designs, icones,
             fotografias, programas de computador, videoclipes e audios, constitui
             propriedade intelectual protegida tanto pela legislacao nacional
             quanto por tratados internacionais sobre direitos autorais e
             propriedade industrial. Essa propriedade engloba nao apenas materiais
-            diretamente produzidos e publicados por nos, mas tambem conteudos que
+            diretamente produzidos e publicados por nos, mas tambem conteúdos que
             sao utilizados sob licenca ou permissao de terceiros, garantindo que
             todos os direitos sejam respeitados conforme as normativas vigentes.
           </p>
           <p className={styles.paragraph}>
             Ao acessar nosso site, voce recebe uma licenca limitada, nao exclusiva
-            e revogavel para visualizar e usar o conteudo para fins pessoais e
+            e revogavel para visualizar e usar o conteúdo para fins pessoais e
             nao comerciais. Isso implica que qualquer reproducao, distribuicao,
-            transmissao ou modificacao do conteudo, sem a devida autorizacao
+            transmissao ou modificacao do conteúdo, sem a devida autorizacao
             escrita da Controle Financeiro, e estritamente proibida. Tal
             restricao visa proteger os direitos de propriedade intelectual
             associados aos materiais disponibilizados, assegurando que sua
@@ -117,12 +116,12 @@ export default function TermsPage() {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>5. Cookies e Mais</h2>
           <p className={styles.paragraph}>
-            Utilizamos cookies para melhorar sua experiencia, coletando
-            informacoes anonimas durante sua visita, como suas preferencias de
+            Utilizamos cookies para melhorar sua experiência, coletando
+            informações anonimas durante sua visita, como suas preferencias de
             idioma, duracao da visita, paginas acessadas, e outras estatisticas
-            de uso. Esses dados nos ajudam a personalizar seu conteudo, otimizar
+            de uso. Esses dados nos ajudam a personalizar seu conteúdo, otimizar
             a navegacao, melhorar continuamente o site em design e
-            funcionalidade, e garantir sua seguranca online. Esta pratica e
+            funcionalidade, e garantir sua segurança online. Esta pratica e
             essencial para nos permitir oferecer um servico mais ajustado as suas
             necessidades e resolver qualquer problema que possa surgir mais
             rapidamente.
@@ -130,11 +129,11 @@ export default function TermsPage() {
           <p className={styles.paragraph}>
             Se voce preferir limitar ou recusar o uso de cookies, a configuracao
             pode ser ajustada atraves do seu navegador. Isso pode afetar a sua
-            experiencia no site, pois algumas funcionalidades dependem dos
+            experiência no site, pois algumas funcionalidades dependem dos
             cookies para funcionar corretamente. Entendemos a importancia do
-            controle sobre suas informacoes e queremos que voce saiba que, ao
+            controle sobre suas informações e queremos que voce saiba que, ao
             ajustar as configuracoes para bloquear cookies, algumas partes do
-            nosso site podem nao oferecer a experiencia completa pretendida.
+            nosso site podem nao oferecer a experiência completa pretendida.
           </p>
         </section>
 
@@ -143,23 +142,23 @@ export default function TermsPage() {
           <p className={styles.paragraph}>
             Nosso site pode incluir links para sites externos que achamos que
             podem ser do seu interesse. Note que nao temos controle sobre esses
-            sites externos e, portanto, nao somos responsaveis pelo seu conteudo
-            ou politicas.
+            sites externos e, portanto, nao somos responsaveis pelo seu conteúdo
+            ou políticas.
           </p>
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>7. Mudancas e Atualizacoes</h2>
+          <h2 className={styles.sectionTitle}>7. Mudanças e Atualizacoes</h2>
           <p className={styles.paragraph}>
             A evolucao e parte de como operamos, o que significa que estes Termos
-            de Uso podem passar por atualizacoes para refletir melhor as mudancas
+            de Uso podem passar por atualizacoes para refletir melhor as mudanças
             em nossos servicos ou na legislacao. Sempre que isso acontecer, voce
-            encontrara a versao mais recente disponivel aqui. Se as mudancas
+            encontrara a versao mais recente disponível aqui. Se as mudanças
             forem significativas, faremos o possivel para notifica-lo atraves dos
             meios de contato que voce nos forneceu.
           </p>
           <p className={styles.paragraph}>
-            Continuar a acessar o site apos essas mudancas indica que voce
+            Continuar a acessar o site apos essas mudanças indica que voce
             concorda com os novos termos. Se, por qualquer motivo, voce nao
             concordar com as atualizacoes, pedimos que nao continue utilizando
             nosso site e servicos.
@@ -167,9 +166,9 @@ export default function TermsPage() {
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Duvidas ou Comentarios?</h2>
+          <h2 className={styles.sectionTitle}>Dúvidas ou Comentarios?</h2>
           <p className={styles.paragraph}>
-            Se tiver duvidas sobre estes termos, nao hesite em nos contatar
+            Se tiver dúvidas sobre estes termos, nao hesite em nos contatar
             atraves do e-mail projetoscontato99@gmail.com.
           </p>
         </section>
