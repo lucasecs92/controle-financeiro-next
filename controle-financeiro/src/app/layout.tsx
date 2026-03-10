@@ -1,6 +1,7 @@
 import { Afacad } from "next/font/google";
 import "../styles/globals.scss";
 import type { Metadata } from "next";
+import Script from "next/script";
 
 const afacad = Afacad({
   subsets: ["latin"],
@@ -20,7 +21,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={afacad.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Script
+          src="https://cdn.iubenda.com/iubenda.js"
+          strategy="lazyOnload"
+        />
+      </body>
     </html>
   );
 }
