@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type SyntheticEvent,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import type { Session } from "@supabase/supabase-js";
@@ -12,6 +19,14 @@ import {
 import { getFriendlyAuthErrorMessage } from "@/features/auth/utils/authErrorMessage";
 
 export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={null}>
+      <ResetPasswordContent />
+    </Suspense>
+  );
+}
+
+function ResetPasswordContent() {
   const supabase = getSupabaseClient();
   const router = useRouter();
   const searchParams = useSearchParams();
