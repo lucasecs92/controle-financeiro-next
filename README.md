@@ -1,5 +1,8 @@
 # Controle Financeiro
 
+<img src="./screenshot/controle-financeiro.png" width="60%">
+<img src="./screenshot/controle-financeiro-auth.png" width="60%">
+
 Aplicacao web para controle financeiro pessoal com autenticacao via Supabase e um dashboard de transacoes. Construido com Next.js (App Router), React e TypeScript.
 
 ## Funcionalidades
