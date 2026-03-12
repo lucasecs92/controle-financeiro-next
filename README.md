@@ -3,16 +3,16 @@
 <img src="./screenshot/controle-financeiro.png" width="60%">
 <img src="./screenshot/controle-financeiro-auth.png" width="60%">
 
-Aplicacao web para controle financeiro pessoal com autenticacao via Supabase e um dashboard de transacoes. Construido com Next.js (App Router), React e TypeScript.
+Aplicação web para controle financeiro pessoal com autenticação via Supabase e um dashboard de transações. Construído com Next.js (App Router), React e TypeScript.
 
 ## Funcionalidades
 
-- Autenticacao com e-mail/senha e Google OAuth.
-- Recuperacao de senha por e-mail.
-- Dashboard com filtros por mes/ano.
-- Resumo financeiro do periodo (entradas, saidas, balanco e total acumulado).
-- Cadastro, edicao e exclusao de transacoes (entrada/saida).
-- Dados isolados por usuario com politicas RLS no Supabase.
+- Autenticação com e-mail/senha e Google OAuth.
+- Recuperação de senha por e-mail.
+- Dashboard com filtros por mês/ano.
+- Resumo financeiro do período (entradas, saídas, balanço e total acumulado).
+- Cadastro, edição e exclusão de transações (entrada/saída).
+- Dados isolados por usuário com políticas RLS no Supabase.
 
 ## Stack
 
@@ -28,9 +28,9 @@ Aplicacao web para controle financeiro pessoal com autenticacao via Supabase e u
 - Node.js LTS
 - Conta no Supabase
 
-## Configuracao local
+## Configuração local
 
-1. Instale as dependencias:
+1. Instale as dependências:
 
 ```bash
 npm install
@@ -43,7 +43,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 ```
 
-3. No Supabase, execute o SQL em `supabase/schema.sql` para criar a tabela `transactions` e as politicas RLS.
+3. No Supabase, execute o SQL em `supabase/schema.sql` para criar a tabela `transactions` e as políticas RLS.
 
 4. Rode o projeto:
 
@@ -51,7 +51,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 npm run dev
 ```
 
-A aplicacao estara em `http://localhost:3000`.
+A aplicação estará em `http://localhost:3000`.
 
 ## Configurar Google OAuth
 
@@ -77,14 +77,14 @@ https://seu-dominio.com/reset-password
 ## Scripts
 
 - `npm run dev`: ambiente de desenvolvimento
-- `npm run build`: build de producao
-- `npm run start`: iniciar build de producao
+- `npm run build`: build de produção
+- `npm run start`: iniciar build de produção
 - `npm run lint`: lint do projeto
 
 ## Estrutura de pastas
 
 - `src/app`: rotas (home, termos, privacidade, reset de senha)
-- `src/features`: features de autenticacao e dashboard
-- `src/components`: layout e secoes compartilhadas
-- `src/lib`: integracao com Supabase
-- `supabase/schema.sql`: schema e politicas RLS
+- `src/features`: features de autenticação e dashboard
+- `src/components`: layout e seções compartilhadas
+- `src/lib`: integração com Supabase
+- `supabase/schema.sql`: schema e políticas RLS
