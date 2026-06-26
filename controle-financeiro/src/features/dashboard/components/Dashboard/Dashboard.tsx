@@ -336,9 +336,7 @@ export default function Dashboard({
       return;
     }
 
-    const insertedTransaction = normalizeRow(
-      data?.[0] as SupabaseTransactionRow | undefined,
-    );
+    const insertedTransaction = normalizeRow(data?.[0]);
 
     if (!insertedTransaction) {
       setFeedback({
@@ -411,9 +409,7 @@ export default function Dashboard({
       return;
     }
 
-    const updatedTransaction = normalizeRow(
-      data?.[0] as SupabaseTransactionRow | undefined,
-    );
+    const updatedTransaction = normalizeRow(data?.[0]);
 
     if (!updatedTransaction) {
       setFeedback({
