@@ -24,6 +24,17 @@ BEGIN
   END LOOP;
 END$$;
 
+-- Criar políticas RLS restritivas para evitar alerta de "RLS ativado, mas sem políticas"
+-- Permite apenas usuários com claim JWT is_admin = 'true' (clientes sem esse claim não terão acesso)
+DROP POLICY IF EXISTS migrations_select_admin ON public.migrations;
+CREATE POLICY migrations_select_admin ON public.migrations FOR SELECT USING ( (auth.jwt() ->> 'is_admin') = 'true' );
+DROP POLICY IF EXISTS migrations_insert_admin ON public.migrations;
+CREATE POLICY migrations_insert_admin ON public.migrations FOR INSERT WITH CHECK ( (auth.jwt() ->> 'is_admin') = 'true' );
+DROP POLICY IF EXISTS migrations_update_admin ON public.migrations;
+CREATE POLICY migrations_update_admin ON public.migrations FOR UPDATE USING ( (auth.jwt() ->> 'is_admin') = 'true' ) WITH CHECK ( (auth.jwt() ->> 'is_admin') = 'true' );
+DROP POLICY IF EXISTS migrations_delete_admin ON public.migrations;
+CREATE POLICY migrations_delete_admin ON public.migrations FOR DELETE USING ( (auth.jwt() ->> 'is_admin') = 'true' );
+
 COMMIT;
 
 -- Explicação:
