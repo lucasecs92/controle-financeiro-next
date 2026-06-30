@@ -5,6 +5,12 @@
 BEGIN;
 
 ALTER TABLE IF EXISTS public.password_reset_tokens ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.password_reset_tokens FORCE ROW LEVEL SECURITY;
+
+-- Revogar privilégios amplos do schema/tabela para roles públicos ou anon.
+REVOKE ALL ON public.password_reset_tokens FROM public;
+REVOKE ALL ON public.password_reset_tokens FROM anon;
+REVOKE ALL ON public.password_reset_tokens FROM authenticated;
 
 -- Remover políticas que possam estar dando acesso amplo.
 DO $$
