@@ -64,6 +64,39 @@ BEGIN
   END LOOP;
 END$$;
 
+-- 6) Proteção específica para public.users, se estiver presente.
+DO $$
+DECLARE
+  u_exists boolean;
+  p RECORD;
+BEGIN
+  SELECT EXISTS(
+    SELECT 1 FROM information_schema.tables
+    WHERE table_schema = 'public' AND table_name = 'users'
+  ) INTO u_exists;
+
+  IF u_exists THEN
+    EXECUTE 'ALTER TABLE public.users ENABLE ROW LEVEL SECURITY';
+    EXECUTE 'ALTER TABLE public.users FORCE ROW LEVEL SECURITY';
+    EXECUTE 'REVOKE ALL ON public.users FROM public';
+    EXECUTE 'REVOKE ALL ON public.users FROM anon';
+    EXECUTE 'REVOKE ALL ON public.users FROM authenticated';
+
+    FOR p IN
+      SELECT policyname
+      FROM pg_policies
+      WHERE schemaname = 'public' AND tablename = 'users'
+    LOOP
+      EXECUTE format('DROP POLICY IF EXISTS %I ON public.users;', p.policyname);
+    END LOOP;
+
+    EXECUTE 'CREATE POLICY users_select_self ON public.users FOR SELECT TO authenticated USING (id = auth.uid())';
+    EXECUTE 'CREATE POLICY users_update_self ON public.users FOR UPDATE TO authenticated USING (id = auth.uid()) WITH CHECK (id = auth.uid())';
+    EXECUTE 'CREATE POLICY users_insert_self ON public.users FOR INSERT TO authenticated WITH CHECK (id = auth.uid())';
+    EXECUTE 'CREATE POLICY users_delete_self ON public.users FOR DELETE TO authenticated USING (id = auth.uid())';
+  END IF;
+END$$;
+
 COMMIT;
 
 -- Observações:

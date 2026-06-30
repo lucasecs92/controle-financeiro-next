@@ -8,6 +8,8 @@ Passos para corrigir os problemas apontados pelo Supabase
 - Acesse: https://app.supabase.com -> selecione o projeto (ex.: Financeiro / amvqvmyllsfnwhkfikwj)
 - Vá em `Database` -> `Query Editor`.
 - Cole o conteúdo de `supabase/security_fix.sql` e execute.
+- Execute também `supabase/fix_public_users_rls.sql` se sua tabela `public.users` existir e você quiser aplicar políticas específicas de usuários.
+- Se a coluna `password` existir na tabela `public.users` e não for necessária, execute também `supabase/drop_password_from_public_users.sql`.
 - Verifique `Database` -> `Tables` e `Policies` para confirmar alterações.
 
 3) O que o script faz
