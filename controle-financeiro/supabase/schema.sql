@@ -20,10 +20,10 @@ create index if not exists idx_transactions_user_date
 create or replace function public.set_updated_at()
 returns trigger
 language plpgsql
-set search_path = pg_catalog, public
+set search_path to pg_catalog, public
 as $$
 begin
-  new.updated_at = now();
+  new.updated_at = pg_catalog.now();
   return new;
 end;
 $$;
