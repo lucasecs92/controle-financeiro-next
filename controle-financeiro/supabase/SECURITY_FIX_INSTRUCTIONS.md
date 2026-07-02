@@ -9,6 +9,7 @@ Passos para corrigir os problemas apontados pelo Supabase
 - Vá em `Database` -> `Query Editor`.
 - Cole o conteúdo de `supabase/security_fix.sql` e execute.
 - Execute também `supabase/fix_public_users_rls.sql` se sua tabela `public.users` existir e você quiser aplicar políticas específicas de usuários.
+- Execute `supabase/fix_failed_jobs_rls.sql` para revogar o acesso da role `anon` à tabela `public.failed_jobs` e impedir que ela apareça no GraphQL.
 - Se a coluna `password` existir na tabela `public.users` e não for necessária, execute também `supabase/drop_password_from_public_users.sql`.
 - Verifique `Database` -> `Tables` e `Policies` para confirmar alterações.
 
