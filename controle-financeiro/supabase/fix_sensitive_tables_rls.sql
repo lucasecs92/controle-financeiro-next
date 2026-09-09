@@ -4,10 +4,18 @@
 
 BEGIN;
 
--- 1) Revogar acesso público e anon para as tabelas sensíveis
+-- 1) Revogar acesso público e anon para as tabelas sensíveis e para o schema auth
 REVOKE ALL ON public.users FROM public;
 REVOKE ALL ON public.users FROM anon;
 REVOKE ALL ON public.users FROM authenticated;
+
+REVOKE ALL ON public.transactions FROM public;
+REVOKE ALL ON public.transactions FROM anon;
+REVOKE ALL ON public.transactions FROM authenticated;
+
+REVOKE ALL ON public.sessions FROM public;
+REVOKE ALL ON public.sessions FROM anon;
+REVOKE ALL ON public.sessions FROM authenticated;
 
 REVOKE ALL ON public.password_reset_tokens FROM public;
 REVOKE ALL ON public.password_reset_tokens FROM anon;
@@ -17,9 +25,30 @@ REVOKE ALL ON public.personal_access_tokens FROM public;
 REVOKE ALL ON public.personal_access_tokens FROM anon;
 REVOKE ALL ON public.personal_access_tokens FROM authenticated;
 
+REVOKE ALL ON SCHEMA auth FROM public;
+REVOKE ALL ON ALL TABLES IN SCHEMA auth FROM public;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA auth FROM public;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA auth FROM public;
+
+REVOKE ALL ON SCHEMA auth FROM anon;
+REVOKE ALL ON ALL TABLES IN SCHEMA auth FROM anon;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA auth FROM anon;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA auth FROM anon;
+
+REVOKE ALL ON SCHEMA auth FROM authenticated;
+REVOKE ALL ON ALL TABLES IN SCHEMA auth FROM authenticated;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA auth FROM authenticated;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA auth FROM authenticated;
+
 -- 2) Habilitar RLS em tabelas sensíveis
 ALTER TABLE IF EXISTS public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE IF EXISTS public.users FORCE ROW LEVEL SECURITY;
+
+ALTER TABLE IF EXISTS public.transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.transactions FORCE ROW LEVEL SECURITY;
+
+ALTER TABLE IF EXISTS public.sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.sessions FORCE ROW LEVEL SECURITY;
 
 ALTER TABLE IF EXISTS public.password_reset_tokens ENABLE ROW LEVEL SECURITY;
 ALTER TABLE IF EXISTS public.password_reset_tokens FORCE ROW LEVEL SECURITY;
@@ -41,17 +70,17 @@ BEGIN
     SELECT policyname, tablename
     FROM pg_policies
     WHERE schemaname = 'public'
-      AND tablename IN ('users', 'password_reset_tokens', 'personal_access_tokens')
+      AND tablename IN ('users', 'transactions', 'sessions', 'password_reset_tokens', 'personal_access_tokens')
   LOOP
     EXECUTE format('DROP POLICY IF EXISTS %I ON public.%I;', p.policyname, p.tablename);
   END LOOP;
 END $$;
 
--- 5) Política de usuários: usa auth.uid() somente se a coluna id for UUID.
--- Caso id não seja UUID, aplica bloqueio total para evitar erro de tipo e exposição.
+-- 5) Política de usuários e transações: usa auth.uid() somente se a coluna for UUID.
 DO $$
 DECLARE
   has_uuid_id boolean;
+  has_uuid_user_id boolean;
 BEGIN
   SELECT EXISTS (
     SELECT 1
@@ -61,6 +90,15 @@ BEGIN
       AND column_name = 'id'
       AND data_type = 'uuid'
   ) INTO has_uuid_id;
+
+  SELECT EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'transactions'
+      AND column_name = 'user_id'
+      AND data_type = 'uuid'
+  ) INTO has_uuid_user_id;
 
   IF has_uuid_id THEN
     DROP POLICY IF EXISTS users_select_own ON public.users;
@@ -95,9 +133,51 @@ BEGIN
       USING (false)
       WITH CHECK (false);
   END IF;
+
+  IF has_uuid_user_id THEN
+    DROP POLICY IF EXISTS transactions_select_own ON public.transactions;
+    CREATE POLICY transactions_select_own
+      ON public.transactions
+      FOR SELECT TO authenticated
+      USING (user_id = auth.uid());
+
+    DROP POLICY IF EXISTS transactions_insert_own ON public.transactions;
+    CREATE POLICY transactions_insert_own
+      ON public.transactions
+      FOR INSERT TO authenticated
+      WITH CHECK (user_id = auth.uid());
+
+    DROP POLICY IF EXISTS transactions_update_own ON public.transactions;
+    CREATE POLICY transactions_update_own
+      ON public.transactions
+      FOR UPDATE TO authenticated
+      USING (user_id = auth.uid())
+      WITH CHECK (user_id = auth.uid());
+
+    DROP POLICY IF EXISTS transactions_delete_own ON public.transactions;
+    CREATE POLICY transactions_delete_own
+      ON public.transactions
+      FOR DELETE TO authenticated
+      USING (user_id = auth.uid());
+  ELSE
+    DROP POLICY IF EXISTS transactions_block_all ON public.transactions;
+    CREATE POLICY transactions_block_all
+      ON public.transactions
+      FOR ALL TO authenticated
+      USING (false)
+      WITH CHECK (false);
+  END IF;
 END $$;
 
--- 6) Proteger tabelas de tokens e reset de senha
+-- 6) Sessões: bloqueia acesso direto até o schema de sessão ficar consistente
+DROP POLICY IF EXISTS sessions_block_all ON public.sessions;
+CREATE POLICY sessions_block_all
+  ON public.sessions
+  FOR ALL TO authenticated
+  USING (false)
+  WITH CHECK (false);
+
+-- 7) Proteger tabelas de tokens e reset de senha
 DROP POLICY IF EXISTS password_reset_tokens_block_all ON public.password_reset_tokens;
 CREATE POLICY password_reset_tokens_block_all
   ON public.password_reset_tokens
@@ -117,6 +197,6 @@ COMMIT;
 -- Observações:
 -- - Se a sua aplicação realmente precisa expor dados públicos de perfil, prefira criar uma view
 --   segura em vez de expor a tabela users inteira.
--- - Se a tabela public.users ainda for usada pela aplicação para autenticação, verifique se os
---   campos sensíveis foram migrados para auth.users ou outra tabela separada.
+-- - O recurso de leaked password protection do Supabase depende do plano Pro e não pode ser
+--   habilitado em planos menores.
 -- - Após aplicar, valide em Dashboard do Supabase: Database -> Policies e Database -> Advisories.
