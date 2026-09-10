@@ -159,8 +159,7 @@ export default function Dashboard({
 
     const { data, error } = await supabase
       .from("transactions")
-      .select("id, date, description, type, amount")
-      .eq("user_id", userId);
+      .select("id, date, description, type, amount");
 
     if (error) {
       setFeedback({
@@ -397,7 +396,6 @@ export default function Dashboard({
         amount,
       })
       .eq("id", editingId)
-      .eq("user_id", userId)
       .select("id, date, description, type, amount");
 
     if (error) {
@@ -472,8 +470,7 @@ export default function Dashboard({
     const { error } = await supabase
       .from("transactions")
       .delete()
-      .eq("id", transactionId)
-      .eq("user_id", userId);
+      .eq("id", transactionId);
 
     if (error) {
       setFeedback({
